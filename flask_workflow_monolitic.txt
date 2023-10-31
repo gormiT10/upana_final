@@ -1,0 +1,89 @@
+1. we install virtual env:
+pip3 install virtualenv
+
+2.we create the virtuelenv:
+virtualenv myenv
+
+3. pip install flask
+
+4. we will start by setting the app blueprints
+  -create another folder withing the app and add a __init__.py file
+
+5. within the new folder created, proceed to create a users folder, events folder(depending on the app) and add the dunder init.py file; then withing this folders we can create routes.py, forms.py, utils.py etc
+
+6. make sure you have all the following dependencies:
+
+7. work on the user blueprint as follows: 
+  from flask import Blueprint,render_template,redirect
+
+  users = Blueprint('users', __name__)
+
+  @users.route('/register', methods = ['GET','POST'])
+  def register():
+    return render_template('register.html', title = 'register Page')
+
+8. forms
+this is what you will need (most of the time):
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileAllowed,FileField
+from wtforms import StringField,PasswordField,SubmitField,BooleanField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+
+9. __init__.py
+import os
+from flask import Flask 
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
+from event_system.config import Config
+from dotenv import load_dotenv
+
+lucasM10_kane
+gromit_10
+
+
+5uXc9VcQ  kane@hospital.org 
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'hash-it'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///events.db'
+
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+
+
+with app.app_context():
+    db.create_all()
+
+from event_system.users.routes import users as users_blp
+app.register_blueprint(users_blp)
+
+
+10. Models
+from event_system  import app, db
+app.app_context().push()
+db.create_all()
+
+
+
+
+
+
+
+# Create a Flask application instance
+app = Flask(__name__)
+
+# Define a route and a view function
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
+# Run the Flask app
+if __name__ == '__main__':
+    app.run(debug=True)
+
+npx tailwindcss -i style.css -o css/main.css 
+
+
+pip install werkzeug==2.3.0
