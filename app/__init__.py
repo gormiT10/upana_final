@@ -8,6 +8,10 @@ from .extensions import api,db,admin,bcrypt,mail,jwt
 from .user_resources import autenticacion
 from .main import main
 from .pacientes import paciente
+from .especialistas import soyespecialista
+from .admin import admins
+from .laboratiorio import laboratorio
+from .farmacia import farmacia
 
 def create_app():
   app = Flask(__name__)
@@ -31,8 +35,12 @@ def create_app():
   jwt.init_app(app)
 
   admin.add_view(UsuarioAdminView(Usuario,db.session))
-  admin.add_view(PacienteAdminView(Paciente, db.session))
+  admin.add_view(PacienteAdminView(Paciente, db.session))      
   api.add_namespace(autenticacion)
   api.add_namespace(main)
   api.add_namespace(paciente)
+  api.add_namespace(soyespecialista)
+  api.add_namespace(admins)
+  api.add_namespace(laboratorio)
+  api.add_namespace(farmacia)
   return app

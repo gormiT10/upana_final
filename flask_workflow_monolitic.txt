@@ -87,3 +87,6 @@ npx tailwindcss -i style.css -o css/main.css
 
 
 pip install werkzeug==2.3.0
+
+
+lucasM10_10_L_KG fast mail test_testingcode
