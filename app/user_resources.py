@@ -22,7 +22,7 @@ class Login(Resource):
     if usuario and bcrypt.check_password_hash(usuario.contrasena, autenticacion.payload['contrasena']):
       access_token = create_access_token(identity=usuario.id, fresh=True)
       refresh_token = create_refresh_token(identity=usuario.id)
-      print(access_token)
+      # print(access_token)
       return jsonify({'access_token':access_token,"refresh_token":refresh_token})
     else:
       return jsonify({'invalid Credentials':'LoginPage'})

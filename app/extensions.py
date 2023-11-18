@@ -4,6 +4,7 @@ from flask_admin import Admin
 from flask_bcrypt import Bcrypt
 from flask_mailman import Mail
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 # 1. extension de flask_restx api
 #2. nuestro ORM sqlalchemy

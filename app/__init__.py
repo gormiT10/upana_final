@@ -2,7 +2,7 @@ from flask import Flask
 from flask_admin.contrib.sqla import ModelView
 from .models import Usuario, Paciente
 from .admin import UsuarioAdminView,PacienteAdminView
-
+from flask_cors import CORS
 
 from .extensions import api,db,admin,bcrypt,mail,jwt
 from .user_resources import autenticacion
@@ -22,7 +22,7 @@ def create_app():
   app.config["MAIL_PASSWORD"] = ''
   app.config["MAIL_USE_TLS"] = False
   app.config["MAIL_USE_SSL"] = False
- 
+  cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 
   app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db.sqlite3'
   app.config['SECRET_KEY'] = 'hashit'
@@ -33,6 +33,7 @@ def create_app():
   bcrypt.init_app(app)
   mail.init_app(app)
   jwt.init_app(app)
+  cors.init_app(app)
 
   admin.add_view(UsuarioAdminView(Usuario,db.session))
   admin.add_view(PacienteAdminView(Paciente, db.session))      
