@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -39,8 +40,6 @@ const routes: Routes = [
 },
 
 
-
-
 ];
 
 @NgModule({
@@ -55,7 +54,11 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     RouterModule.forRoot(routes)
+  ],
+  exports: [
+    RdoctoresComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
