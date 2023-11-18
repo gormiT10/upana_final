@@ -14,4 +14,9 @@ export class AuthService {
   login(credentials: { correo: string; contrasena: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
+
+  getPacientesData(): Observable<any> {
+    // Replace 'your-endpoint' with the actual endpoint you want to request data from
+    return this.http.get(`${this.apiUrl}/pacientes`);
+   }
 }

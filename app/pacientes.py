@@ -36,7 +36,7 @@ class Pacientes(Resource):
   # ruta para mostrar los pacientes no atendidos
   @paciente.marshal_list_with(modelo_paciente)
   def get(self):
-    pacientes = Paciente.query.filter(proceso='en-sala').all()
+    pacientes = Paciente.query.filter_by(proceso='en-sala').all()
     # pacientes_no_atendidos = [paciente_registrado for paciente_registrado in pacientes if paciente_registrado.atendido == False]
     return pacientes
 
