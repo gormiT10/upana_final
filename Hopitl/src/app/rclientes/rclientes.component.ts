@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+// rclientes.component.ts
+
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -6,19 +9,31 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './rclientes.component.html',
   styleUrls: ['./rclientes.component.css']
 })
-export class RclientesComponent {
-  constructor(private authService: AuthService) {}
+export class RclientesComponent implements OnInit {
+  pacientesData: any[] = [];
+  error: any;
+
+  constructor(private router: Router, private authService: AuthService) {}
+
   ngOnInit(): void {
+    this.obtenerPacientes();
+  }
+
+  obtenerPacientes() {
     this.authService.getPacientesData().subscribe(
       (data) => {
+        this.pacientesData = data;
         console.log('Datos:', data);
-        // Manejar los datos recibidos según sea necesario
       },
       (error) => {
+        this.error = error;
         console.error('Error:', error);
-        // Manejar errores
       }
     );
   }
-  
+
+  // Método para dirigir al formulario de registro
+  irAFormulario() {
+    this.router.navigate(['/formulario-registro']);
+  }
 }

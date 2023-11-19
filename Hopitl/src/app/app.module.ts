@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -11,13 +12,17 @@ import { ExamenesComponent } from './examenes/examenes.component';
 import { MedicamentosComponent } from './medicamentos/medicamentos.component';
 import { RecetaComponent } from './receta/receta.component';
 
-
 import { RouterModule,Routes } from '@angular/router';
+import { FormularioRegistroComponent } from './formulario-registro/formulario-registro.component';
 
 const routes: Routes = [
 {
   path:'Login',
   component: LoginComponent
+},
+{ 
+  path: 'formulario-registro', 
+  component: FormularioRegistroComponent 
 },
 {
   path:'Rclientes',
@@ -51,12 +56,14 @@ const routes: Routes = [
     RdoctoresComponent,
     ExamenesComponent,
     MedicamentosComponent,
-    RecetaComponent
+    RecetaComponent,
+    FormularioRegistroComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
   exports: [

@@ -19,4 +19,13 @@ export class AuthService {
     // Replace 'your-endpoint' with the actual endpoint you want to request data from
     return this.http.get(`${this.apiUrl}/pacientes`);
    }
+
+   obtenerPacientes(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/ruta/para/obtener/pacientes`);
+  }
+
+  registrarPaciente(nuevoPaciente: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/ruta/para/registrar/paciente`, nuevoPaciente);
+  }
+
 }

@@ -1,0 +1,21 @@
+<!-- formulario-registro.component.html -->
+
+<div>
+    <h2>Formulario de Registro de Paciente</h2>
+    <form [formGroup]="formulario">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" formControlName="nombre">
+  
+      <label for="especialistas">Especialistas:</label>
+      <input type="text" id="especialistas" formControlName="especialistas">
+  
+      <label for="proceso">Proceso:</label>
+      <input type="text" id="proceso" formControlName="proceso">
+  
+      <label for="atendido">¿Atendido?</label>
+      <input type="checkbox" id="atendido" formControlName="atendido">
+  
+      <button (click)="registrarPaciente()">Registrar Paciente</button>
+    </form>
+  </div>
+  
