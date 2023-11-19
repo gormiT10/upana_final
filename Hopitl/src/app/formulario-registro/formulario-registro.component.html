@@ -1,34 +1,37 @@
 <div class="container mt-5">
   <h2>Formulario de Registro de Paciente</h2>
-  <form [formGroup]="formulario" (ngSubmit)="registrarPaciente()">
+  <form (ngSubmit)="registrarPaciente()">
     <div class="mb-3">
       <label for="nombre" class="form-label">Nombre:</label>
       <input
         type="text"
         class="form-control"
         id="nombre"
-        formControlName="nombre"
         required
+        [(ngModel)]="nuevoPaciente.nombre"
+        name="nombre"
       />
     </div>
 
     <div class="mb-3">
+      <label for="especialistas" class="form-label">Especialistas:</label>
       <select
         class="form-control"
         id="especialistas"
-        formControlName="especialistas"
         required
+        [(ngModel)]="nuevoPaciente.especialistas"
+        name="especialistas"
       >
         <option value="" disabled>Select Especialista</option>
         <option
           *ngFor="let especialista of especialistasData"
-          [value]="especialista"
+          [value]="especialista.nombre"
         >
           {{ especialista.nombre }}
         </option>
       </select>
     </div>
 
-    <button type="button" class="btn btn-primary">Registrar Paciente</button>
+    <button type="submit" class="btn btn-primary">Registrar Paciente</button>
   </form>
 </div>

@@ -1,7 +1,7 @@
 // formulario-registro.component.ts
 
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -10,16 +10,30 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./formulario-registro.component.css'],
 })
 export class FormularioRegistroComponent {
-  formulario: FormGroup;
   especialistasData: any[] = [];
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
-    this.formulario = this.fb.group({
-      nombre: ['', Validators.required],
-      especialistas: ['', Validators.required],
-      proceso: ['', Validators.required],
-      atendido: [false],
-    });
+  constructor(private authService: AuthService, private router: Router) {}
+
+  nuevoPaciente = {
+    nombre: '',
+    especialistas: '',
+  };
+
+  registrarPaciente() {
+    // objeto que se guardará en nuestro array de objetos "carritoData"
+    console.log(this.nuevoPaciente);
+
+    // Make the login API call
+    this.authService.registrarpacientes(this.nuevoPaciente).subscribe(
+      (response) => {
+        console.log('respuesta:', response);
+        this.router.navigate(['/Rclientes']);
+      },
+      (error) => {
+        console.error('Login failed:', error);
+        // Handle the error as needed
+      }
+    );
   }
 
   ngOnInit() {
@@ -34,22 +48,5 @@ export class FormularioRegistroComponent {
         console.error('Error al obtener datos:', error);
       }
     );
-  }
-
-  registrarPaciente() {
-    if (this.formulario.valid) {
-      const nuevoPaciente = this.formulario.value;
-      console.log(this.formulario.value);
-      // Llamada al servicio para almacenar el nuevo paciente en el backend
-      this.authService.registrarpacientes(nuevoPaciente).subscribe(
-        (response) => {
-          console.log('Nuevo paciente registrado con éxito:', response);
-          // Puedes redirigir a la lista de pacientes después de registrar uno nuevo
-        },
-        (error) => {
-          console.error('Error al registrar nuevo paciente:', error);
-        }
-      );
-    }
   }
 }
