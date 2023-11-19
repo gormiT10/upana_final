@@ -26,7 +26,7 @@ export class FormularioRegistroComponent {
       const nuevoPaciente = this.formulario.value;
 
       // Llamada al servicio para almacenar el nuevo paciente en el backend
-      this.authService.registrarPaciente(nuevoPaciente).subscribe(
+      this.authService.registrarpacientes(nuevoPaciente).subscribe(
         (response) => {
           console.log('Nuevo paciente registrado con éxito:', response);
           // Puedes redirigir a la lista de pacientes después de registrar uno nuevo

@@ -21,11 +21,11 @@ export class AuthService {
    }
 
    obtenerPacientes(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/ruta/para/obtener/pacientes`);
+    return this.http.get<any[]>(`${this.apiUrl}/pacientes`);
   }
 
-  registrarPaciente(nuevoPaciente: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/ruta/para/registrar/paciente`, nuevoPaciente);
+  registrarpacientes(nuevopaciente: { nombre: string; especialistas: string; proceso: string; antendido: boolean }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/pacientes`, nuevopaciente);
   }
 
 }

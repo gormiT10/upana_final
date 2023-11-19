@@ -1,21 +1,26 @@
-<!-- formulario-registro.component.html -->
+<div class="container mt-5">
+  <h2>Formulario de Registro de Paciente</h2>
+  <form [formGroup]="formulario">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre:</label>
+      <input type="text" class="form-control" id="nombre" formControlName="nombre" required>
+    </div>
 
-<div>
-    <h2>Formulario de Registro de Paciente</h2>
-    <form [formGroup]="formulario">
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" formControlName="nombre">
-  
-      <label for="especialistas">Especialistas:</label>
-      <input type="text" id="especialistas" formControlName="especialistas">
-  
-      <label for="proceso">Proceso:</label>
-      <input type="text" id="proceso" formControlName="proceso">
-  
-      <label for="atendido">¿Atendido?</label>
-      <input type="checkbox" id="atendido" formControlName="atendido">
-  
-      <button (click)="registrarPaciente()">Registrar Paciente</button>
-    </form>
-  </div>
-  
+    <div class="mb-3">
+      <label for="especialistas" class="form-label">Especialistas:</label>
+      <input type="text" class="form-control" id="especialistas" formControlName="especialistas" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="proceso" class="form-label">Proceso:</label>
+      <input type="text" class="form-control" id="proceso" formControlName="proceso" required>
+    </div>
+
+    <div class="form-check mb-3">
+      <input type="checkbox" class="form-check-input" id="atendido" formControlName="atendido">
+      <label class="form-check-label" for="atendido">¿Atendido?</label>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="registrarPaciente()">Registrar Paciente</button>
+  </form>
+</div>
