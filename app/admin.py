@@ -56,7 +56,7 @@ autorizacion = {
 
 admins = Namespace('api', authorizations=autorizacion)
 
-@admins.route('/admins')
+@admins.route('/especialistas/activos')
 class PanelEspecialistas(Resource):
   @admins.marshal_with(modelo_especialista)
   def get(self):

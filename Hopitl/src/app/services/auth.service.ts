@@ -18,14 +18,21 @@ export class AuthService {
   getPacientesData(): Observable<any> {
     // Replace 'your-endpoint' with the actual endpoint you want to request data from
     return this.http.get(`${this.apiUrl}/pacientes`);
-   }
+  }
 
-   obtenerPacientes(): Observable<any[]> {
+  getEspecialistasData(): Observable<any> {
+    // Replace 'your-endpoint' with the actual endpoint you want to request data from
+    return this.http.get(`${this.apiUrl}/especialistas/activos`);
+  }
+
+  obtenerPacientes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/pacientes`);
   }
 
-  registrarpacientes(nuevopaciente: { nombre: string; especialistas: string; proceso: string; antendido: boolean }): Observable<any> {
+  registrarpacientes(nuevopaciente: {
+    nombre: string;
+    especialistas: string;
+  }): Observable<any> {
     return this.http.post(`${this.apiUrl}/pacientes`, nuevopaciente);
   }
-
 }

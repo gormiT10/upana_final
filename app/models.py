@@ -23,6 +23,9 @@ class Usuario(db.Model):
   examen_sangre = db.relationship("ExamenSangre", backref='especialista')
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
 
+  def __repr__(self):
+    return self.nombre
+
 # nuestra tabla paciente en db
 class Paciente(db.Model):
   id = db.Column(db.Integer, primary_key =True)
@@ -37,6 +40,8 @@ class Paciente(db.Model):
   medicacion = db.relationship('Medicacion', backref= 'paciente')
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
   
+  def __repr__(self):
+    return self.nombre
 
 
 class ExamenOrina(db.Model):
