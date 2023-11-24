@@ -4,11 +4,10 @@ import string
 from .extensions import bcrypt
 from flask_restx import Resource,Namespace
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from .api_models import modelo_especialista, input_modelo_especialista
+from .api_models import modelo_especialista, input_modelo_especialista, modelo_especialista_put,modelo_especialista_put_input
 from .extensions import db, bcrypt
 from .models import  Usuario
 from flask import jsonify
-
 
 
 
@@ -46,6 +45,7 @@ class PacienteAdminView(ModelView):
     columnas = ['nombre', 'especialistas', 'atendido']
 
 
+
 autorizacion = {
   "jsonWebToken":{
     "type":"apiKey",
@@ -55,6 +55,8 @@ autorizacion = {
 }
 
 admins = Namespace('api', authorizations=autorizacion)
+
+
 
 @admins.route('/especialistas/activos')
 class PanelEspecialistas(Resource):
@@ -78,9 +80,47 @@ class PanelEspecialistas(Resource):
     nuevo_especialista = Usuario(nombre=admins.payload["nombre"], 
                                  especialidad = admins.payload["especialidad"],
                                  puesto = admins.payload["puesto"],
-                                 correo = admins.payload['nombre'] + "@gmail.com",
-                                 contrasena = hashed_contrasena
+                                 correo = admins.payload['correo'],
+                                 horario_laboral = admins.payload['horario_laboral'],
+                                 contrasena = hashed_contrasena,
+                                 es_admin  = admins.payload['es_admin']
                                  )
     db.session.add(nuevo_especialista)
     db.session.commit()
     return nuevo_especialista
+  
+
+@admins.route('/editar/usuario/<int:usuario_id>')
+class EditandoUsuarios(Resource):
+
+  @admins.marshal_with(modelo_especialista_put)
+  def get(self, usuario_id):
+     algun_usuario = Usuario.query.filter_by(id=usuario_id).first()
+     return algun_usuario
+  
+
+  @admins.marshal_with(modelo_especialista_put)
+  @admins.expect(modelo_especialista_put_input)
+  def put(self,usuario_id):
+    algun_usuario  = Usuario.query.filter_by(id=usuario_id).first()
+
+    hashed_contrasena = bcrypt.generate_password_hash(admins.payload['contrasena']).decode('utf-8')
+
+    algun_usuario.es_admin = admins.payload['es_admin']
+    algun_usuario.nombre = admins.payload['nombre']
+    algun_usuario.correo = admins.payload['correo']
+    algun_usuario.especialidad = admins.payload['especialidad']
+    algun_usuario.horario_laboral = admins.payload['horario_laboral']
+    algun_usuario.puesto = admins.payload['puesto']
+    if admins.payload['contrasena']:
+      algun_usuario.contrasena = hashed_contrasena
+
+    db.session.commit()
+    return algun_usuario
+
+  @admins.marshal_with(modelo_especialista_put)
+  def delete(self,usuario_id):
+     algun_usuario = Usuario.query.filter_by(id=usuario_id).first()
+     db.session.delete(algun_usuario)
+     db.session.commit()
+     return algun_usuario

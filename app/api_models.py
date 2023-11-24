@@ -45,7 +45,28 @@ modelo_especialista = api.model("Especialista",{
   "nombre":fields.String,
   "especialidad":fields.String,
   "horario_laboral":fields.String,
-  "puesto":fields.String
+  "puesto":fields.String,
+  "id":fields.Integer
+})
+
+modelo_especialista_put = api.model('PutUsuario', {
+  "es_admin": fields.Boolean,
+  "nombre":fields.String,
+  "correo": fields.String,
+  "contrasena":fields.String,
+  "especialidad":fields.String,
+  "horario_laboral":fields.String,
+  "puesto":fields.String,
+})
+
+modelo_especialista_put_input = api.model('InPutUsuarioPut', {
+  "es_admin": fields.Boolean,
+  "nombre":fields.String,
+  "correo": fields.String,
+  "contrasena":fields.String,
+  "especialidad":fields.String,
+  "horario_laboral":fields.String,
+  "puesto":fields.String,
 })
 
 input_modelo_especialista = api.model('InputEspecialista', {
@@ -81,6 +102,7 @@ modelo_diagnostico_receta=api.model('DiagnosticoYreceta',{
 })
 
 modelo_examenes = api.model('ExamenesDeLaboratorio', {
+  "id":fields.Integer,
   "nombre":fields.String,
   "examen_orina":fields.List(fields.String),
   "examen_sangre":fields.List(fields.String)
@@ -88,7 +110,6 @@ modelo_examenes = api.model('ExamenesDeLaboratorio', {
 
 input_modelo_examenes = api.model("InputExamenes",{
   "nombre":fields.String,
-  "status":fields.String,
   "hemoglobina":fields.String,
   "hematocrito":fields.String,
   "aspecto":fields.String,
@@ -112,7 +133,8 @@ modelo_resultados_examenes = api.model("ExamenesConResultados",{
   "hematocrito":fields.String,
   "aspecto":fields.String,
   "color":fields.String,
-  "id": fields.Integer
+  "id": fields.Integer,
+  "paciente_id":fields.Integer
 })
 
 receta = api.model('ModeloReceta',{
@@ -120,8 +142,21 @@ receta = api.model('ModeloReceta',{
   "fecha_de_creacion":fields.DateTime
 })
 
-factura = api.model("factura", {
+modelo_factura = api.model("InputFactura", {
   "producto":fields.String,
   "cantidad":fields.Integer,
+  "precio":fields.Integer
+})
+
+show_factura = api.model('showFactura',{
+  "subtotal": fields.String,
+  "paciente_id":fields.Integer,
+  "total": fields.Integer
+})
+
+modelo_medicamento = api.model("factura", {
+  "id":fields.Integer,
+  "nombre":fields.String,
+  "cantidad_disponible":fields.Integer,
   "precio":fields.Integer
 })

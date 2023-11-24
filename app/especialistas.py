@@ -1,7 +1,7 @@
 from flask_restx import Resource,Namespace
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from .api_models import  (full_modelo_paciente,input_anamnesis_y_examenes, 
-                          modelo_anamnesis_y_examenes, input_diagnostico_y_receta, modelo_diagnostico_receta, modelo_pacientes_en_espera_examenes_completados)
+                          modelo_anamnesis_y_examenes, input_diagnostico_y_receta, modelo_diagnostico_receta, modelo_pacientes_en_espera_examenes_completados, modelo_resultados_examenes)
 from .extensions import db, bcrypt
 from .models import  Usuario, Paciente,ExamenSangre, ExamenOrina, Anamnesis,Diagnostico,Medicacion
 
@@ -51,11 +51,13 @@ class PaginaParaEspecialistas(Resource):
 
     pacientes_con_resultados_completos = list(pacientes_con_resultados_parciales-pacientes_con_examenes_pendientes)
       
-    print(pacientes_con_resultados_completos)
-    cola_de_pacientes_en_sala = sorted(pacientes_en_espera, key=lambda x:x.fecha_de_creacion)
-    cola_de_examenes_completados = sorted(pacientes_con_resultados_completos, key=lambda x:x.fecha_de_creacion)
+    lista_de_pacientes_con_resultados = [paciente for paciente in pacientes_con_resultados_completos if paciente.proceso != 'pagar-en-farmacia']
+  
     
-    print(cola_de_pacientes_en_sala)
+    cola_de_pacientes_en_sala = sorted(pacientes_en_espera, key=lambda x:x.fecha_de_creacion)
+    cola_de_examenes_completados = sorted(lista_de_pacientes_con_resultados, key=lambda x:x.fecha_de_creacion)
+    
+ 
     
     #podemos ver cada uno de los pacientes a ser atendidos por este especialista que al clickiarse nos llevara la pagina de anamnesis
     #podemos ver cada uno de los examanes completados que al clickiar seremos redirigidos a la pagina donde veremos la informacion y luego dar receta
@@ -67,7 +69,7 @@ class PaginaConsulta(Resource):
   @soyespecialista.marshal_with(full_modelo_paciente)
   def get(self, paciente_id):
     algun_paciente = Paciente.query.filter_by(id=paciente_id).first()
-    algun_paciente.proceso = 'en-consulta'
+    algun_paciente.atendido = True
     db.session.commit()
     return algun_paciente
   
@@ -102,12 +104,21 @@ class PaginaConsulta(Resource):
 
 @soyespecialista.route('/especialistas/receta/<int:paciente_id>')
 class RecetaMedica(Resource):
+  @soyespecialista.marshal_with(modelo_resultados_examenes)
+  def get(self,paciente_id):
+    algun_paciente = Paciente.query.filter_by(id=paciente_id).first()
+    examenes = ExamenSangre.query.filter_by(status='completados', paciente_id = algun_paciente.id).all() + ExamenOrina.query.filter_by(status='completados', paciente_id=algun_paciente.id).all()
+    return examenes
+
+
   @soyespecialista.marshal_with(modelo_diagnostico_receta)
   @soyespecialista.expect(input_diagnostico_y_receta)
   def post(self,paciente_id):
     algun_paciente = Paciente.query.filter_by(id=paciente_id).first()
-    nuevo_diagnostico = Diagnostico(informacion = soyespecialista.payload['diagnostico'], paciente_id = paciente_id)
     algun_paciente.proceso = 'pagar-en-farmacia'
+    db.session.commit()
+    nuevo_diagnostico = Diagnostico(informacion = soyespecialista.payload['diagnostico'], paciente_id = paciente_id)
+   
     db.session.add(nuevo_diagnostico)
     db.session.commit()
 

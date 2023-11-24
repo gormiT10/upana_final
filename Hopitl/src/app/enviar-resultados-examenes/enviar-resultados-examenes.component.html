@@ -1,0 +1,101 @@
+<div>
+  <h2>Information Display here</h2>
+  <ul>
+    <li><strong>ID:</strong> {{ examenCompletado.id }}</li>
+
+    <strong>Nombre:</strong>
+    {{
+      examenCompletado.nombre
+    }}
+
+    <strong>Status:</strong>
+    {{
+      examenCompletado.status
+    }}
+  </ul>
+
+  <form
+    (ngSubmit)="onSubmit()"
+    *ngIf="
+      examenCompletado.status !== 'completados' &&
+      (examenInfo.nombre === 'sangre' || examenInfo.nombre === 'orina')
+    "
+  >
+    <h3 *ngIf="examenInfo.nombre === 'sangre'">Sangre Information</h3>
+    <h3 *ngIf="examenInfo.nombre === 'orina'">Orina Information</h3>
+
+    <label for="tipo">Tipo de Examen:</label>
+    <input
+      type="text"
+      id="tipo"
+      [value]="examenInfo.nombre"
+      name="tipo"
+      readonly
+    />
+
+    <label for="hemoglobina" *ngIf="examenInfo.nombre === 'sangre'"
+      >Hemoglobina:</label
+    >
+    <input
+      type="text"
+      id="hemoglobina"
+      [(ngModel)]="examenInfo.hemoglobina"
+      name="hemoglobina"
+      *ngIf="examenInfo.nombre === 'sangre'"
+    />
+
+    <label for="hematocrito" *ngIf="examenInfo.nombre === 'sangre'"
+      >Hematocrito:</label
+    >
+    <input
+      type="text"
+      id="hematocrito"
+      [(ngModel)]="examenInfo.hematocrito"
+      name="hematocrito"
+      *ngIf="examenInfo.nombre === 'sangre'"
+    />
+
+    <label for="color" *ngIf="examenInfo.nombre === 'orina'">Color:</label>
+    <input
+      type="text"
+      id="color"
+      [(ngModel)]="examenInfo.color"
+      name="color"
+      *ngIf="examenInfo.nombre === 'orina'"
+    />
+
+    <label for="aspecto" *ngIf="examenInfo.nombre === 'orina'">Aspecto:</label>
+    <input
+      type="text"
+      id="aspecto"
+      [(ngModel)]="examenInfo.aspecto"
+      name="aspecto"
+      *ngIf="examenInfo.nombre === 'orina'"
+    />
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div *ngIf="examenCompletado.status === 'completados'">
+    <h2>Completados Information</h2>
+    <ul>
+      <li *ngIf="examenCompletado.nombre !== null">
+        <strong>Nombre:</strong> {{ examenCompletado.nombre }}
+      </li>
+      <li *ngIf="examenCompletado.hemoglobina !== null">
+        <strong>Hemoglobina:</strong> {{ examenCompletado.hemoglobina }}
+      </li>
+      <li *ngIf="examenCompletado.hematocrito !== null">
+        <strong>Hematocrito:</strong> {{ examenCompletado.hematocrito }}
+      </li>
+      <li *ngIf="examenCompletado.aspecto !== null">
+        <strong>Aspecto:</strong> {{ examenCompletado.aspecto }}
+      </li>
+      <li *ngIf="examenCompletado.color !== null">
+        <strong>Color:</strong> {{ examenCompletado.color }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div><button (click)="irAreceta()">Crear Receta</button></div>

@@ -47,10 +47,26 @@ class ExamenEnLaboratorio(Resource):
        if examen_sangre and examen_sangre.status != 'completados':
           examens_del_paciente.append(examen_sangre)
 
-    return examens_del_paciente
+    return examens_del_paciente 
 
 
-  def actualizando_examenes(self,algun_examen_especifico):
+
+
+
+@laboratorio.route("/examen/completado/<nombre>/<int:examen_id>")
+class ExamenCompletado(Resource):
+   @laboratorio.marshal_with(modelo_resultados_examenes)
+   def get(self, examen_id, nombre):
+    examenes_disponibles = {'orina':ExamenOrina, "sangre":ExamenSangre}
+   
+  
+    if nombre in examenes_disponibles:
+      examen = examenes_disponibles[nombre]
+      algun_examen_especifico = examen.query.filter_by(id=examen_id).first()
+      
+    return algun_examen_especifico
+   
+   def actualizando_examenes(self,algun_examen_especifico):
     if algun_examen_especifico.nombre == "orina":
         algun_examen_especifico.status = 'completados'
         algun_examen_especifico.color = laboratorio.payload['color']
@@ -61,14 +77,16 @@ class ExamenEnLaboratorio(Resource):
         algun_examen_especifico.hemoglobina = laboratorio.payload['hemoglobina']
         algun_examen_especifico.hematocrito = laboratorio.payload['hematocrito']
         db.session.commit()
-
-  @laboratorio.marshal_with(modelo_examenes)
-  @laboratorio.expect(input_modelo_examenes)
-  def post(self,paciente_id):
    
+   @laboratorio.marshal_with(modelo_examenes)
+   @laboratorio.expect(input_modelo_examenes)
+   def post(self, examen_id, nombre):
     examenes_disponibles = {'orina':ExamenOrina, "sangre":ExamenSangre}
-    if laboratorio.payload['nombre'] in examenes_disponibles:
-      examen = examenes_disponibles[laboratorio.payload['nombre']]
-      algun_examen_especifico = examen.query.filter_by(id=laboratorio.payload['id']).first()
+   
+  
+    if nombre in examenes_disponibles:
+      examen = examenes_disponibles[nombre]
+      algun_examen_especifico = examen.query.filter_by(id=examen_id).first()
       self.actualizando_examenes(algun_examen_especifico=algun_examen_especifico)
+      
     return algun_examen_especifico

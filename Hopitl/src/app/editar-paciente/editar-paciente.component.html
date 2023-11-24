@@ -1,0 +1,42 @@
+<div class="container mt-5">
+  <h2>Editar Paciente</h2>
+  <form>
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nombre"
+        required
+        [(ngModel)]="nuevoPaciente.nombre"
+        name="nombre"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="especialistas" class="form-label">Especialistas:</label>
+      <select
+        class="form-control"
+        id="especialistas"
+        required
+        [(ngModel)]="nuevoPaciente.especialistas"
+        name="especialistas"
+      >
+        <option value="" disabled>Select Especialista</option>
+        <option
+          *ngFor="let especialista of especialistasData"
+          [value]="especialista.nombre"
+        >
+          {{ especialista.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <button (click)="editarPaciente()" class="btn btn-primary">
+      Guardar Cambios
+    </button>
+    <button (click)="cancelarEdicion()" class="btn btn-primary">
+      Cancelar
+    </button>
+  </form>
+</div>

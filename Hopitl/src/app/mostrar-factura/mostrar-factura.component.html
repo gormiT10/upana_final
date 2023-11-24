@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Angular with Bootstrap</title>
+    <!-- Include Bootstrap CSS -->
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Angular with Bootstrap</title>
+        <!-- Include Bootstrap CSS -->
+
+        <style>
+          /* Add custom styles here if needed */
+          .receipt-container {
+            max-width: 400px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+          }
+          .receipt-header {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+          }
+          .receipt-details {
+            margin-top: 20px;
+          }
+          .list-group-item {
+            border: none;
+            display: flex;
+            justify-content: space-between;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container mt-5">
+          <div class="card receipt-container">
+            <div class="card-body">
+              <h5 class="card-title receipt-header">Factura</h5>
+
+              <!-- Display Subtotal Information -->
+              <div class="list-group receipt-details">
+                <div
+                  *ngFor="let line of factura.subtotal.split('')"
+                  class="list-group-item"
+                >
+                  {{ line }}
+                </div>
+              </div>
+
+              <!-- Display Total -->
+              <p class="card-text receipt-details">
+                <strong>Total:</strong> ${{ factura.total }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Include Bootstrap JS (optional, for Bootstrap components) -->
+        <script src="path/to/bootstrap/js/bootstrap.bundle.min.js"></script>
+      </body>
+    </html>
+
+    <style>
+      /* Add custom styles here if needed */
+      .receipt-container {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      .receipt-header {
+        text-align: center;
+      }
+      .receipt-details {
+        margin-top: 20px;
+      }
+      .list-group-item {
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="card receipt-container">
+        <div class="card-body">
+          <h5 class="card-title receipt-header">Receipt</h5>
+
+          <!-- Display Subtotal Information -->
+          <div class="list-group receipt-details">
+            <div
+              *ngFor="let line of factura.subtotal.split('\n')"
+              class="list-group-item"
+            >
+              {{ line }}
+            </div>
+          </div>
+
+          <!-- Display Total -->
+          <p class="card-text receipt-details">
+            <strong>Total:</strong> {{ factura.total }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Include Bootstrap JS (optional, for Bootstrap components) -->
+    <script src="path/to/bootstrap/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
+
+<div>
+  <button>Imprimir</button>
+  <button (click)="finalizar()">Finalizar</button>
+</div>

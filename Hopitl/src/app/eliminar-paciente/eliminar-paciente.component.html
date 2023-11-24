@@ -1,0 +1,20 @@
+<div class="container mt-5">
+  <h3>Delete Confirmation</h3>
+  <p>Are you sure you want to delete {{ pacienteData.nombre }}?</p>
+
+  <!-- Delete and Cancel Buttons -->
+  <button
+    type="button"
+    class="btn btn-danger mr-2"
+    (click)="deletePaciente(pacienteData.id)"
+  >
+    Yes, Delete
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="cancelarEliminacion()"
+  >
+    Return
+  </button>
+</div>

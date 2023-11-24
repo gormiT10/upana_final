@@ -1,1 +1,12 @@
 <p>EXAMNES PACIENTES</p>
+<div *ngFor="let paciente of pacientesData; let i = index">
+  <a [routerLink]="['/laboratorio/examenes/', paciente.id]">
+    <p>ir a paciente</p></a
+  >
+  <p>Name: {{ paciente.id }}</p>
+  <h2>Patient {{ i + 1 }}</h2>
+  <p>Name: {{ paciente.nombre }}</p>
+  <p>Urinalysis: {{ paciente.examen_orina.join(", ") }}</p>
+  <p>Blood Test: {{ paciente.examen_sangre.join(", ") }}</p>
+  <hr />
+</div>

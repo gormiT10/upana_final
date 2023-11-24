@@ -1,0 +1,104 @@
+<div class="form-group">
+  <label for="diagnostico">Diagnóstico</label>
+  <textarea
+    class="form-control"
+    id="diagnostico"
+    rows="5"
+    [(ngModel)]="diagnostico"
+  >
+Diagnostico</textarea
+  >
+</div>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4" *ngFor="let medicamento of medicamentos">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ medicamento.nombre }}</h5>
+          <button class="btn btn-primary" (click)="agregar(medicamento.nombre)">
+            Agregar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-container" *ngIf="mostrarPopup">
+  <div class="popup container">
+    <form class="p-3">
+      <h5>{{ nombreDelMedicamentoSeleccionado }}</h5>
+      <div class="form-group">
+        <label for="cantidad">Cantidad</label>
+        <input
+          type="text"
+          class="form-control"
+          id="cantidad"
+          name="cantidad"
+          [(ngModel)]="cantidad"
+        />
+      </div>
+      <div class="form-group">
+        <label for="dosis">Dosis</label>
+        <textarea
+          class="form-control"
+          id="dosis"
+          name="dosis"
+          [(ngModel)]="dosis"
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        (click)="agregarAlaReceta()"
+      >
+        Agregar a la Receta
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancelar()">
+        Cancelar
+      </button>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="receta" class="container mt-4">
+  <h2 class="mb-4">Receta Information</h2>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <strong>Diagnóstico:</strong> {{ receta.diagnostico }}
+    </li>
+    <li class="list-group-item">
+      <strong>Nombre del Medicamento:</strong>
+      <ul class="list-group">
+        <li
+          *ngFor="let medicamento of receta.medicamento"
+          class="list-group-item"
+        >
+          {{ medicamento }}
+        </li>
+      </ul>
+    </li>
+    <li class="list-group-item">
+      <strong>Cantidad del Medicamento:</strong>
+      <ul class="list-group">
+        <li *ngFor="let cantidad of receta.cantidad" class="list-group-item">
+          {{ cantidad }}
+        </li>
+      </ul>
+    </li>
+    <li class="list-group-item">
+      <strong>Dosis del Medicamento:</strong>
+      <ul class="list-group">
+        <li *ngFor="let dosis of receta.dosis" class="list-group-item">
+          {{ dosis }}
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="card-body">
+  <button class="btn btn-primary" (click)="enviarReceta()">
+    Mandar A Farmacia
+  </button>
+</div>

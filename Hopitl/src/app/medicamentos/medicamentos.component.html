@@ -1,2 +1,33 @@
-<p>Lista de Medicamentos</p>
- 
+<!-- Assuming you have a route named 'paciente' -->
+<div class="container mt-4">
+  <h2>Pacientes Information</h2>
+  <div *ngFor="let paciente of pacientesData" class="card mb-3">
+    <div class="card-body">
+      <!-- Use routerLink to navigate to the 'paciente' route with the paciente's ID -->
+      <a [routerLink]="['/farmacia/pagar/paciente/', paciente.id]">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <strong>ID:</strong> {{ paciente.id }}
+          </li>
+          <li class="list-group-item">
+            <strong>Nombre:</strong> {{ paciente.nombre }}
+          </li>
+          <li class="list-group-item">
+            <strong>Proceso:</strong> {{ paciente.proceso }}
+          </li>
+          <li class="list-group-item">
+            <strong>Especialistas:</strong>
+            <ul class="list-group">
+              <li
+                *ngFor="let especialista of paciente.especialistas"
+                class="list-group-item"
+              >
+                {{ especialista }}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </a>
+    </div>
+  </div>
+</div>

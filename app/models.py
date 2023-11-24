@@ -38,6 +38,7 @@ class Paciente(db.Model):
   examen_sangre = db.relationship("ExamenSangre", backref='paciente')
   diagnostico = db.relationship('Diagnostico', backref='paciente' )
   medicacion = db.relationship('Medicacion', backref= 'paciente')
+  factura = db.relationship('Facturas', backref= 'paciente')
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
   
   def __repr__(self):
@@ -48,8 +49,8 @@ class ExamenOrina(db.Model):
   id = db.Column(db.Integer, primary_key= True)
   nombre = db.Column(db.String(75),default='orina')
   status = db.Column(db.String(50), nullable=False, default='no-completado')
-  aspecto = db.Column(db.String(100), nullable=False, default='?')
-  color = db.Column(db.String(100), nullable = False, default = '-')
+  aspecto = db.Column(db.String(100), nullable=False, default='orina')
+  color = db.Column(db.String(100), nullable = False, default = 'orina')
   paciente_id = db.Column(db.Integer, db.ForeignKey('paciente.id'))
   especialista_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
@@ -61,8 +62,8 @@ class ExamenSangre(db.Model):
   id = db.Column(db.Integer, primary_key= True)
   nombre = db.Column(db.String(75), default='sangre')
   status = db.Column(db.String(50), nullable=False, default='no-completado')
-  hemoglobina = db.Column(db.String(100), nullable = False, default = '-')
-  hematocrito = db.Column(db.String(100), nullable = False, default = '-')
+  hemoglobina = db.Column(db.String(100), nullable = False, default = 'sangre')
+  hematocrito = db.Column(db.String(100), nullable = False, default = 'sangre')
   paciente_id = db.Column(db.Integer, db.ForeignKey('paciente.id'))
   especialista_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
@@ -91,9 +92,10 @@ class Medicacion(db.Model):
   paciente_id = db.Column(db.Integer, db.ForeignKey('paciente.id'))
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow )
 
-class Factura(db.Model):
+class Facturas(db.Model):
   id = db.Column(db.Integer, primary_key = True)
-  informacion = db.Column(db.Text, nullable=False, default='pendiente')
+  subtotal = db.Column(db.Text, nullable=False, default='pendiente')
+  total = db.Column(db.Integer, nullable =False, default = 0)
   paciente_id = db.Column(db.Integer, db.ForeignKey('paciente.id'))
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow )
 

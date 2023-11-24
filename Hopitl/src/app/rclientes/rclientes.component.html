@@ -1,23 +1,32 @@
 <div *ngIf="pacientesData.length > 0; else noData">
-    <h2>Lista de Pacientes</h2>
-    <ul>
-      <!-- Iterar sobre los pacientes existentes -->
-      <li *ngFor="let paciente of pacientesData">
-        <!-- Detalles del paciente -->
-        <p>ID: {{ paciente.id }}</p>
-        <p>Nombre: {{ paciente.nombre }}</p>
-        <p>Especialistas:</p>
-        <ul>
-          <li *ngFor="let especialista of paciente.especialistas">{{ especialista }}</li>
-        </ul>
-        <hr />
-      </li>
-    </ul>
-  </div>
-  
-  <ng-template #noData>
-    <p>No hay datos disponibles.</p>
-  </ng-template>
-  
-  <!-- Botón para dirigir al formulario de registro -->
-  <button (click)="irAFormulario()">Registrar Nuevo Paciente</button>
+  <h2>Lista de Pacientes</h2>
+  <ul>
+    <!-- Iterar sobre los pacientes existentes -->
+    <li *ngFor="let paciente of pacientesData">
+      <a [routerLink]="['/buscar/paciente/', paciente.id]">
+        <p>ir a paciente</p></a
+      >
+      <!-- Detalles del paciente -->
+      <a>
+        <p>Nombre: {{ paciente.nombre }}</p></a
+      >
+      <p>ID: {{ paciente.id }}</p>
+
+      <p>Especialistas:</p>
+      <ul>
+        <li *ngFor="let especialista of paciente.especialistas">
+          {{ especialista }}
+        </li>
+      </ul>
+
+      <hr />
+    </li>
+  </ul>
+</div>
+
+<ng-template #noData>
+  <p>No hay datos disponibles.</p>
+</ng-template>
+
+<!-- Botón para dirigir al formulario de registro -->
+<button (click)="irAFormulario()">Registrar Nuevo Paciente</button>

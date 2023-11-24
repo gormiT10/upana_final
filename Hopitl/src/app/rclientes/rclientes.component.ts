@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-rclientes',
   templateUrl: './rclientes.component.html',
-  styleUrls: ['./rclientes.component.css']
+  styleUrls: ['./rclientes.component.css'],
 })
 export class RclientesComponent implements OnInit {
   pacientesData: any[] = [];
@@ -20,10 +20,9 @@ export class RclientesComponent implements OnInit {
   }
 
   obtenerPacientes() {
-    this.authService.getPacientesData().subscribe(
+    this.authService.listarPacientes().subscribe(
       (data) => {
         this.pacientesData = data;
-        console.log('Datos:', data);
       },
       (error) => {
         this.error = error;

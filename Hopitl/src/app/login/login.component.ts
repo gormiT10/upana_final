@@ -20,22 +20,18 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   loginCredentialsRequest() {
-    // objeto que se guardará en nuestro array de objetos "carritoData"
-    console.log(this.credentialesLogin);
-
-    // Make the login API call
     this.authService.login(this.credentialesLogin).subscribe(
       (response) => {
-        console.log('respuesta:', response);
-
         if (response.access_token) {
-          console.log(response.correo);
+          localStorage.setItem('access_token', response.access_token);
           this.router.navigate(['/Rclientes']);
+        } else {
+          console.log('no autorizado');
+          this.router.navigate(['/Login']);
         }
       },
       (error) => {
         console.error('Login failed:', error);
-        // Handle the error as needed
       }
     );
   }

@@ -37,6 +37,9 @@ export class FormularioRegistroComponent {
   }
 
   ngOnInit() {
+    if (!localStorage['access_token']) {
+      this.router.navigate(['/Login']);
+    }
     // Llamada a tu servicio para realizar la solicitud GET en el inicio del componente
     this.authService.getEspecialistasData().subscribe(
       (response) => {

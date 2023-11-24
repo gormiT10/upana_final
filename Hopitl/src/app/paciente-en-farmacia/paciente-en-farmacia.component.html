@@ -1,0 +1,131 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Receta Médica</h5>
+      <p class="card-text">Información:</p>
+      <ul class="list-group">
+        <ng-container
+          *ngFor="let line of receta.informacion.split('\n'); let i = index"
+        >
+          <li class="list-group-item">{{ line }}</li>
+          <br *ngIf="i < receta.informacion.split('\n').length - 1" />
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4" *ngIf="!mostrarPopup">
+  <h3>En Farmacia</h3>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Cantidad Disponible</th>
+        <th>Precio</th>
+        <th>Mas opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let medicamento of medicamentosEnFarmacia">
+        <td>{{ medicamento.id }}</td>
+        <td>{{ medicamento.nombre }}</td>
+        <td>{{ medicamento.cantidad_disponible }}</td>
+        <td>{{ medicamento.precio }}</td>
+        <td></td>
+
+        <td>
+          <button
+            class="btn btn-primary"
+            (click)="agregar(medicamento.nombre, medicamento.precio)"
+          >
+            Agregar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="popup-container" *ngIf="mostrarPopup">
+  <div class="popup container">
+    <form class="p-3">
+      <h5>{{ nombreDelMedicamentoSeleccionado }}</h5>
+      <div class="form-group">
+        <label for="cantidad">Cantidad</label>
+        <input
+          type="text"
+          class="form-control"
+          id="cantidad"
+          name="cantidad"
+          [(ngModel)]="cantidad"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        (click)="agregarAlaReceta()"
+      >
+        Agregar a la Receta
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancelar()">
+        Cancelar
+      </button>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="factura" class="container mt-4">
+  <h2 class="mb-4">Productos Agregados</h2>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Nombre del Medicamento</h5>
+          <ul class="list-group">
+            <li
+              *ngFor="let medicamento of factura.producto"
+              class="list-group-item"
+            >
+              {{ medicamento }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Cantidad del Medicamento</h5>
+          <ul class="list-group">
+            <li
+              *ngFor="let cantidad of factura.cantidad"
+              class="list-group-item"
+            >
+              {{ cantidad }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Precio del Medicamento</h5>
+          <ul class="list-group">
+            <li *ngFor="let precio of factura.precio" class="list-group-item">
+              {{ precio }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button (click)="generarFactura()">Generar Factura</button>

@@ -1,0 +1,100 @@
+<div class="container mt-5">
+  <h1 class="mb-4">User Form</h1>
+
+  <form>
+    <!-- Checkbox for 'es_admin' -->
+    <div class="mb-3 form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="esAdminCheckbox"
+        name="es_admin"
+        [(ngModel)]="esteUsuario.es_admin"
+      />
+      <label class="form-check-label" for="esAdminCheckbox">Es Admin</label>
+    </div>
+
+    <!-- Text input for 'nombre' -->
+    <div class="mb-3">
+      <label for="nombreInput" class="form-label">Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nombreInput"
+        name="nombre"
+        required
+        [(ngModel)]="esteUsuario.nombre"
+      />
+    </div>
+
+    <!-- Text input for 'correo' -->
+    <div class="mb-3">
+      <label for="correoInput" class="form-label">Correo</label>
+      <input
+        type="email"
+        class="form-control"
+        id="correoInput"
+        name="correo"
+        placeholder="do not fill this out"
+        [(ngModel)]="esteUsuario.correo"
+      />
+    </div>
+
+    <!-- Password input for 'contrasena' -->
+    <div class="mb-3">
+      <label for="contrasenaInput" class="form-label">Contraseña</label>
+      <input
+        type="password"
+        class="form-control"
+        id="contrasenaInput"
+        name="contrasena"
+        placeholder="do not fill this out"
+        [(ngModel)]="esteUsuario.contrasena"
+      />
+    </div>
+
+    <!-- Text input for 'horario_laboral' -->
+    <div class="mb-3">
+      <label for="horarioInput" class="form-label">Horario Laboral</label>
+      <input
+        type="text"
+        class="form-control"
+        id="horarioInput"
+        name="horario_laboral"
+        required
+        [(ngModel)]="esteUsuario.horario_laboral"
+      />
+    </div>
+
+    <!-- Text input for 'especialidad' -->
+    <div class="mb-3">
+      <label for="especialidadInput" class="form-label">Especialidad</label>
+      <input
+        type="text"
+        class="form-control"
+        id="especialidadInput"
+        name="especialidad"
+        required
+        [(ngModel)]="esteUsuario.especialidad"
+      />
+    </div>
+
+    <!-- Text input for 'puesto' -->
+    <div class="mb-3">
+      <label for="puestoInput" class="form-label">Puesto</label>
+      <input
+        type="text"
+        class="form-control"
+        id="puestoInput"
+        name="puesto"
+        required
+        [(ngModel)]="esteUsuario.puesto"
+      />
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary" (click)="registrarUsuario()">
+      Guardar
+    </button>
+  </form>
+</div>
