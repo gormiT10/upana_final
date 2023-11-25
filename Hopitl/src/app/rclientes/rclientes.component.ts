@@ -25,6 +25,7 @@ export class RclientesComponent implements OnInit {
       (response) => {
         console.log('respuesta:', response);
         this.pacienteBuscadoData = response;
+        console.log(this.pacienteBuscadoData);
       },
       (error) => {
         console.error('error:', error);

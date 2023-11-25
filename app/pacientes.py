@@ -3,7 +3,7 @@
 #imports
 from flask_restx import Resource,Namespace
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from .api_models import input_modelo_paciente, modelo_paciente, input_modelo_buscar_paciente, full_modelo_paciente
+from .api_models import input_modelo_paciente, modelo_paciente, input_modelo_buscar_paciente, full_modelo_paciente, modelo_angtiguo_paciente
 from .extensions import db
 from .models import Paciente, Usuario
 from flask_restx import abort
@@ -40,7 +40,7 @@ class Pacientes(Resource):
     try:
       if ('nombre' not in paciente.payload or not paciente.payload['especialistas']
            or 'telefono' not in paciente.payload or 'genero' not in paciente.payload or 'dpi' not in paciente.payload 
-           or 'direccion' not in paciente.payload):
+           or 'direccion' not in paciente.payload or 'edad' not in paciente.payload):
           abort(400, message="error: falta 'informacion' in el payload")
 
       # verificando que no exista ya el usuario en la db
@@ -53,7 +53,7 @@ class Pacientes(Resource):
           abort(404, message="no se encontro ningun especialista")
 
       nuevo_paciente = Paciente(nombre=paciente.payload['nombre'], telefono=paciente.payload['telefono'], genero=paciente.payload['genero'],
-                                dpi = paciente.payload['dpi'], direccion = paciente.payload['direccion'])
+                                dpi = paciente.payload['dpi'], direccion = paciente.payload['direccion'], edad = paciente.payload['edad'])
       db.session.add(nuevo_paciente)
       especialista.pacientes.append(nuevo_paciente)
       nuevo_paciente.especialistas.append(especialista)
@@ -88,16 +88,18 @@ class Pacientes(Resource):
 @paciente.route('/buscar/paciente')
 class BuscarPaciente(Resource):
   method_decorators = [jwt_required()]
-  @paciente.marshal_with(modelo_paciente)
+  @paciente.marshal_with(modelo_angtiguo_paciente)
   @paciente.expect(input_modelo_buscar_paciente)
   @paciente.doc(security="jsonWebtoken")
   def post(self):
     try:
       if not paciente.payload['nombre']:
          abort(400,message='nombre no contiene informacion')
+        
 
       algun_paciente = Paciente.query.filter_by(nombre=paciente.payload['nombre']).all()
-      print(algun_paciente)
+      
+   
       return algun_paciente
     
     except Exception as e:
@@ -110,7 +112,7 @@ class VerPaciente(Resource):
   method_decorators  = [jwt_required()]
 
   # en este metodo podremos ver la informacion completa del paciente no atendido
-  @paciente.marshal_with(full_modelo_paciente)
+  @paciente.marshal_with(modelo_angtiguo_paciente)
   @paciente.doc(security = 'jsonWebtoken')
   def get(self, paciente_id):
     try:

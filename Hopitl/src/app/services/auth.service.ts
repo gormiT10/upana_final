@@ -123,6 +123,7 @@ export class AuthService {
   // request para registrar un paciente
   registrarpacientes(nuevopaciente: {
     nombre: string;
+    edad: string;
     especialistas: string;
     telefono: string;
     genero: string;
@@ -181,6 +182,8 @@ export class AuthService {
       consulta: string;
       peso: string;
       altura: string;
+      alergias: boolean;
+      antecedentes: string;
       examenes: Array<string>;
     },
     paciente_id: number
@@ -228,6 +231,9 @@ export class AuthService {
       aspecto: string;
       color: string;
       id: number;
+      glucosa: string;
+      trigliceridos: string;
+      proteinas: string;
     },
     nombre: string,
     examen_id: number

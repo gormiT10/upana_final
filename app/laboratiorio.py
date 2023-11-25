@@ -103,11 +103,15 @@ class InformacionExamenIncompleto(Resource):
         algun_examen_especifico.status = 'completados'
         algun_examen_especifico.color = laboratorio.payload['color']
         algun_examen_especifico.aspecto = laboratorio.payload['aspecto']
+        algun_examen_especifico.color = laboratorio.payload['glucosa']
+        algun_examen_especifico.aspecto = laboratorio.payload['proteinas']
         db.session.commit()
     elif algun_examen_especifico.nombre == "sangre":
         algun_examen_especifico.status = 'completados'
         algun_examen_especifico.hemoglobina = laboratorio.payload['hemoglobina']
         algun_examen_especifico.hematocrito = laboratorio.payload['hematocrito']
+        algun_examen_especifico.hemoglobina = laboratorio.payload['glucosa']
+        algun_examen_especifico.hematocrito = laboratorio.payload['trigliceridos']
         db.session.commit()
    
 

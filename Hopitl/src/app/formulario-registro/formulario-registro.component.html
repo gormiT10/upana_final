@@ -14,6 +14,18 @@
     </div>
 
     <div class="mb-3">
+      <label for="edad" class="form-label">Edad:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="edad"
+        required
+        [(ngModel)]="nuevoPaciente.edad"
+        name="edad"
+      />
+    </div>
+
+    <div class="mb-3">
       <label for="especialistas" class="form-label">Especialistas:</label>
       <select
         class="form-control"

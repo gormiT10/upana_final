@@ -1,7 +1,11 @@
 <div class="container mt-4">
-  <div *ngFor="let data of pacienteData">
-    <button (click)="test(data.nombre, data.id)">
-      examen {{ data.nombre }} here
+  <div *ngFor="let data of pacienteData" class="mb-3">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="test(data.nombre, data.id)"
+    >
+      Examen {{ data.nombre }} here
     </button>
   </div>
 </div>

@@ -141,8 +141,8 @@ class PaginaConsulta(Resource):
       algun_paciente = Paciente.query.filter_by(id=paciente_id).first()
 
       # guardando la anamnesis en nuestra base de datos
-      nueva_consulta = Anamnesis(peso =soyespecialista.payload['peso'], altura = soyespecialista.payload['altura'],
-                                consulta= soyespecialista.payload['consulta'], paciente = algun_paciente)
+      nueva_consulta = Anamnesis(peso =soyespecialista.payload['peso'], altura = soyespecialista.payload['altura'],antecedentes = soyespecialista.payload['antecedentes'],
+                                consulta= soyespecialista.payload['consulta'], paciente = algun_paciente, alergias  = soyespecialista.payload['alergias'],)
       
       # el estado de la cita medica cambia 
       algun_paciente.proceso = 'en-consulta'

@@ -4,6 +4,58 @@
   <h2>Detalles del Paciente</h2>
   <p>Nombre: {{ pacienteData.nombre }}</p>
   <p>ID: {{ pacienteData.id }}</p>
+  <p>Genero: {{ pacienteData.genero }}</p>
+  <p>Telefono: {{ pacienteData.telefono }}</p>
+  <p>Direccion: {{ pacienteData.direccion }}</p>
+  <p>Dpi: {{ pacienteData.genero }}</p>
+  <p>Proceso: {{ pacienteData.proceso }}</p>
+
+  <p><strong>Especialistas:</strong></p>
+  <ul>
+    <li *ngFor="let especialista of pacienteData.especialistas">
+      {{ especialista }}
+    </li>
+  </ul>
+  <p><strong>Anamnesis:</strong></p>
+  <ul>
+    <li *ngFor="let anamnesis of pacienteData.anamnesis">
+      {{ anamnesis }}
+    </li>
+  </ul>
+  <p><strong>Examenes De Sangre:</strong></p>
+  <ul>
+    <li *ngFor="let examen of pacienteData.examen_sangre">
+      {{ examen }}
+    </li>
+  </ul>
+
+  <p><strong>Examenes De Orina:</strong></p>
+  <ul>
+    <li *ngFor="let examen of pacienteData.examen_orina">
+      {{ examen }}
+    </li>
+  </ul>
+
+  <p><strong>Diagnosticos:</strong></p>
+  <ul>
+    <li *ngFor="let diagnostico of pacienteData.diagnostico">
+      {{ diagnostico }}
+    </li>
+  </ul>
+
+  <p><strong>Medicaciones:</strong></p>
+  <ul>
+    <li *ngFor="let medicacion of pacienteData.medicacion">
+      {{ medicacion }}
+    </li>
+  </ul>
+
+  <p><strong>Facturas:</strong></p>
+  <ul>
+    <li *ngFor="let factura of pacienteData.factura">
+      {{ factura }}
+    </li>
+  </ul>
 
   <!-- Display other details as needed -->
 

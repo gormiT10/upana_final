@@ -16,6 +16,7 @@ modelo_usuario = api.model("Usuario", {
 # schema para los datos enviado desde el formulario de agregar pacientes
 input_modelo_paciente = api.model('InputPaciente', {
   "nombre":fields.String,
+  "edad":fields.String,
   "especialistas":fields.String,
   "telefono":fields.String,
   "genero":fields.String,
@@ -49,8 +50,30 @@ full_modelo_paciente = api.model("FullInfoPaciente",{
   "dpi":fields.String,
   "especialistas":fields.List(fields.String),
   "proceso":fields.String,
-  "anamnesis":fields.List(fields.String)
+  "anamnesis":fields.List(fields.String),
+  "examen_sangre":fields.List(fields.String),
+  "examen_orina":fields.List(fields.String),
+  "diagnostico":fields.List(fields.String),
+  "medicacion":fields.List(fields.String),
+  "factura":fields.List(fields.String),
+  "fecha_de_creacion":fields.Date
+})
 
+modelo_angtiguo_paciente = api.model('antiguoPaciente',{
+  "id":fields.Integer,
+  "nombre":fields.String,
+  "direccion":fields.String,
+  "telefono":fields.String,
+  "genero":fields.String,
+  "dpi":fields.String,
+   "proceso":fields.String,
+  "especialistas":fields.List(fields.String),
+  "examen_sangre":fields.List(fields.String),
+  "examen_orina":fields.List(fields.String),
+  "diagnostico":fields.List(fields.String),
+  "medicacion":fields.List(fields.String),
+  "anamnesis":fields.List(fields.String),
+  "factura":fields.List(fields.String),
 })
 
 # schema a mostrar en la pagina de especialistas
@@ -93,15 +116,22 @@ modelo_anamnesis_y_examenes = api.model("ShowAnamnesisYexamenes",{
    "consulta":fields.String,
   "peso":fields.Integer,
   "altura":fields.Integer,
-  "examenes":fields.List(fields.String)
+  "examenes":fields.List(fields.String),
+  "antecedentes":fields.String,
+  "alergias" : fields.Boolean
 })
 
 input_anamnesis_y_examenes = api.model("InputAnamnesis",{
   "consulta":fields.String,
   "peso":fields.Integer,
   "altura":fields.Integer,
-  "examenes":fields.List(fields.String)
+  "examenes":fields.List(fields.String),
+  "antecedentes":fields.String,
+  "alergias" : fields.Boolean
 })
+
+
+
 
 input_diagnostico_y_receta = api.model('InputRecetaYdiagnostico',{
   "diagnostico":fields.String,
@@ -145,9 +175,13 @@ modelo_resultados_examenes = api.model("ExamenesConResultados",{
   "hemoglobina":fields.String,
   "hematocrito":fields.String,
   "aspecto":fields.String,
+   "trigliceridos":fields.String,
+    "glucosa":fields.String,
+     "proteinas":fields.String,
   "color":fields.String,
   "id": fields.Integer,
   "paciente_id":fields.Integer
+
 })
 
 receta = api.model('ModeloReceta',{

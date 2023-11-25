@@ -1,17 +1,19 @@
 <div class="form-group">
-  <label for="diagnostico">Diagnóstico</label>
+  <label for="diagnostico" class="text-success"
+    >Ingrese el Diagnóstico Médico</label
+  >
   <textarea
     class="form-control"
     id="diagnostico"
     rows="5"
     [(ngModel)]="diagnostico"
-  >
-Diagnostico</textarea
-  >
+    placeholder="Escriba aquí el diagnóstico médico..."
+  ></textarea>
 </div>
+
 <div class="container mt-4">
   <div class="row">
-    <div class="col-md-4" *ngFor="let medicamento of medicamentos">
+    <div class="col-md-2" *ngFor="let medicamento of medicamentos">
       <div class="card mb-3">
         <div class="card-body">
           <h5 class="card-title">{{ medicamento.nombre }}</h5>

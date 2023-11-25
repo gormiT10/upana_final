@@ -84,7 +84,8 @@ class ProductosEnFarmacia(Resource):
   def get(self):
     try:
       medicamentos = Medicamento.query.all()
-      return medicamentos
+      medicamentos_ordenados = sorted(medicamentos, key=lambda x:x.nombre)
+      return medicamentos_ordenados
     except Exception as e:
       abort(500, message=f"error: {str(e)}")
   

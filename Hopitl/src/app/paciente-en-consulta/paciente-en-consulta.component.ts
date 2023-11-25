@@ -19,6 +19,8 @@ export class PacienteEnConsultaComponent {
     peso: '',
     altura: '',
     examenes: [] as string[],
+    antecedentes: '',
+    alergias: false,
   };
 
   // metodo para mandar la anamnesis del paciente

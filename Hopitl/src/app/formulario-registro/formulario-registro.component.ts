@@ -16,6 +16,7 @@ export class FormularioRegistroComponent {
 
   nuevoPaciente = {
     nombre: '',
+    edad : '',
     especialistas: '',
     telefono: '',
     genero: '',

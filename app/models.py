@@ -30,6 +30,7 @@ class Usuario(db.Model):
 class Paciente(db.Model):
   id = db.Column(db.Integer, primary_key =True)
   nombre = db.Column(db.String(100), nullable = False, unique =True)
+  edad = db.Column(db.String(3), nullable = False)
   telefono = db.Column(db.String(12), nullable = False, default = 'ninguno')
   genero = db.Column(db.String(20), nullable = False)
   dpi = db.Column(db.String(20), nullable = False, default = 'ninguno')
@@ -62,7 +63,7 @@ class ExamenOrina(db.Model):
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
 
   def __str__(self):
-    return 'orina'
+    return f'status:  {self.status} Fecha:    {self.fecha_de_creacion}'
  
 class ExamenSangre(db.Model):
   id = db.Column(db.Integer, primary_key= True)
@@ -77,7 +78,7 @@ class ExamenSangre(db.Model):
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
 
   def __str__(self):
-    return 'sangre'
+    return f'status:  {self.status} Fecha:    {self.fecha_de_creacion}'
 
 class Anamnesis(db.Model):
   id = db.Column(db.Integer, primary_key= True)
@@ -90,7 +91,7 @@ class Anamnesis(db.Model):
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
 
   def __str__(self):
-    return self.consulta
+    return f'consulta:  {self.consulta}   Fecha: {self.fecha_de_creacion}'
 
 
 
@@ -101,7 +102,7 @@ class Diagnostico(db.Model):
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
 
   def __str__(self):
-    return self.informacion
+   return f'Diagostico Final:  {self.informacion}   fecha: {self.fecha_de_creacion}'
 
 
 
@@ -112,7 +113,7 @@ class Medicacion(db.Model):
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow )
 
   def __str__(self):
-    return self.informacion
+     return f'Receta:  {self.informacion}   fecha: {self.fecha_de_creacion}'
 
 class Facturas(db.Model):
   id = db.Column(db.Integer, primary_key = True)
@@ -122,7 +123,7 @@ class Facturas(db.Model):
   fecha_de_creacion = db.Column(db.DateTime, nullable=False, default = datetime.utcnow )
 
   def __str__(self):
-    return self.total
+    return f'subtotal:  {self.subtotal}  \n Total: {self.total}   fecha: {self.fecha_de_creacion}'
 
 class Medicamento(db.Model):
   id = db.Column(db.Integer, primary_key = True)

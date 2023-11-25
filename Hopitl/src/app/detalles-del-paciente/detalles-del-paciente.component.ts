@@ -36,6 +36,7 @@ export class DetallesDelPacienteComponent implements OnInit {
       (data) => {
         console.log(data);
         this.pacienteData = data;
+        console.log(this.pacienteData.anamnesis);
         if (this.pacienteData.anamnesis.length > 0) {
           this.antiguoPaciente = true;
         }

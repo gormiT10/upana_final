@@ -1,5 +1,5 @@
 <div>
-  <h2>Information Display here</h2>
+  <h2>Informacion Del Examen</h2>
   <ul>
     <li><strong>ID:</strong> {{ examenCompletado.id }}</li>
 
@@ -44,6 +44,28 @@
       *ngIf="examenInfo.nombre === 'sangre'"
     />
 
+    <label for="hemoglobina" *ngIf="examenInfo.nombre === 'sangre'"
+      >glucosa:</label
+    >
+    <input
+      type="text"
+      id="glucosa"
+      [(ngModel)]="examenInfo.glucosa"
+      name="glucosa"
+      *ngIf="examenInfo.nombre === 'sangre'"
+    />
+
+    <label for="hemoglobina" *ngIf="examenInfo.nombre === 'sangre'"
+      >trigliceridos:</label
+    >
+    <input
+      type="text"
+      id="hemoglobina"
+      [(ngModel)]="examenInfo.trigliceridos"
+      name="hemoglobina"
+      *ngIf="examenInfo.nombre === 'sangre'"
+    />
+
     <label for="hematocrito" *ngIf="examenInfo.nombre === 'sangre'"
       >Hematocrito:</label
     >
@@ -64,6 +86,24 @@
       *ngIf="examenInfo.nombre === 'orina'"
     />
 
+    <label for="color" *ngIf="examenInfo.nombre === 'orina'">glucosa</label>
+    <input
+      type="text"
+      id="glucosa"
+      [(ngModel)]="examenInfo.glucosa"
+      name="glucosa"
+      *ngIf="examenInfo.nombre === 'orina'"
+    />
+
+    <label for="color" *ngIf="examenInfo.nombre === 'orina'">proteinas</label>
+    <input
+      type="text"
+      id="glucosa"
+      [(ngModel)]="examenInfo.proteinas"
+      name="glucosa"
+      *ngIf="examenInfo.nombre === 'orina'"
+    />
+
     <label for="aspecto" *ngIf="examenInfo.nombre === 'orina'">Aspecto:</label>
     <input
       type="text"
@@ -73,7 +113,9 @@
       *ngIf="examenInfo.nombre === 'orina'"
     />
 
-    <button type="submit">Submit</button>
+    <button type="submit" class="btn btn-primary" style="margin-top: 20px">
+      Submit
+    </button>
   </form>
 
   <div *ngIf="examenCompletado.status === 'completados'">
@@ -98,4 +140,12 @@
   </div>
 </div>
 
-<div><button (click)="irAreceta()">Crear Receta</button></div>
+<div class="mt-4">
+  <button
+    class="btn btn-success"
+    (click)="irAreceta()"
+    style="margin-top: 20px"
+  >
+    Crear Receta
+  </button>
+</div>

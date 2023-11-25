@@ -25,6 +25,9 @@ export class EnviarResultadosExamenesComponent {
     hemoglobina: '',
     hematocrito: '',
     aspecto: '',
+    glucosa: '',
+    proteinas: '',
+    trigliceridos: '',
     color: '',
   };
 
