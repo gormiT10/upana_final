@@ -46,6 +46,6 @@ export class MostrarFacturaComponent {
   }
 
   finalizar() {
-    this.router.navigate(['Rclientes']);
+    this.router.navigate(['/Medicamentos']);
   }
 }

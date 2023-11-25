@@ -27,7 +27,7 @@ export class LoginComponent {
           this.router.navigate(['/Rclientes']);
         } else {
           console.log('no autorizado');
-          this.router.navigate(['/Login']);
+          this.router.navigate(['']);
         }
       },
       (error) => {

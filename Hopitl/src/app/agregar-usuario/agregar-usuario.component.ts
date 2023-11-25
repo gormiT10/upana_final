@@ -20,7 +20,6 @@ export class AgregarUsuarioComponent {
   esteUsuario = {
     es_admin: false,
     nombre: '',
-    correo: '',
     contrasena: '',
     especialidad: '',
     horario_laboral: '',

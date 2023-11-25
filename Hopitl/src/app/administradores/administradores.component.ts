@@ -31,6 +31,7 @@ export class AdministradoresComponent {
       (error) => {
         this.error = error;
         console.error('Error:', error);
+        this.router.navigate(['Rclientes']);
       }
     );
   }

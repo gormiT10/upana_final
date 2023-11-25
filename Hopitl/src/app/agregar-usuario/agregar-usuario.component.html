@@ -28,17 +28,6 @@
     </div>
 
     <!-- Text input for 'correo' -->
-    <div class="mb-3">
-      <label for="correoInput" class="form-label">Correo</label>
-      <input
-        type="email"
-        class="form-control"
-        id="correoInput"
-        name="correo"
-        placeholder="do not fill this out"
-        [(ngModel)]="esteUsuario.correo"
-      />
-    </div>
 
     <!-- Password input for 'contrasena' -->
     <div class="mb-3">
@@ -82,14 +71,19 @@
     <!-- Text input for 'puesto' -->
     <div class="mb-3">
       <label for="puestoInput" class="form-label">Puesto</label>
-      <input
-        type="text"
-        class="form-control"
+      <select
+        class="form-select"
         id="puestoInput"
         name="puesto"
-        required
         [(ngModel)]="esteUsuario.puesto"
-      />
+        required
+      >
+        <option value="" disabled selected>Selecciona un puesto</option>
+        <option value="laboratorista">Laboratorista</option>
+        <option value="enfermero">Enfermero</option>
+        <option value="secretariado">Secretariado</option>
+        <option value="especialista">Especialista</option>
+      </select>
     </div>
 
     <!-- Submit button -->

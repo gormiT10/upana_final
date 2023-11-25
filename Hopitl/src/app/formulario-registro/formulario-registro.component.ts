@@ -17,12 +17,13 @@ export class FormularioRegistroComponent {
   nuevoPaciente = {
     nombre: '',
     especialistas: '',
+    telefono: '',
+    genero: '',
+    direccion: '',
+    dpi: '',
   };
 
   registrarPaciente() {
-    // objeto que se guardará en nuestro array de objetos "carritoData"
-    console.log(this.nuevoPaciente);
-
     // Make the login API call
     this.authService.registrarpacientes(this.nuevoPaciente).subscribe(
       (response) => {
@@ -30,7 +31,7 @@ export class FormularioRegistroComponent {
         this.router.navigate(['/Rclientes']);
       },
       (error) => {
-        console.error('Login failed:', error);
+        console.error('error:', error);
         // Handle the error as needed
       }
     );
@@ -38,13 +39,15 @@ export class FormularioRegistroComponent {
 
   ngOnInit() {
     if (!localStorage['access_token']) {
-      this.router.navigate(['/Login']);
+      this.router.navigate(['']);
     }
+
     // Llamada a tu servicio para realizar la solicitud GET en el inicio del componente
-    this.authService.getEspecialistasData().subscribe(
+    this.authService.getEspecialistas().subscribe(
       (response) => {
         console.log('Datos obtenidos con éxito:', response);
         this.especialistasData = response;
+
         // Puedes manejar la respuesta según tus necesidades
       },
       (error) => {

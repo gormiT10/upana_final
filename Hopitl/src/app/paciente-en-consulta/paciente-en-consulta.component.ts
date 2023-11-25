@@ -21,17 +21,18 @@ export class PacienteEnConsultaComponent {
     examenes: [] as string[],
   };
 
+  // metodo para mandar la anamnesis del paciente
   enviarAnamnesis(): void {
     const pacienteId = this.pacienteId; // Replace with the actual patient ID
 
     this.authService.pacienteAnamnesis(this.anamnesis, pacienteId).subscribe(
       (response) => {
-        console.log('anamnesis sent successfully:', response);
+        console.log('enviada:', response);
 
         // this.router.navigate(['/Rclientes']);
       },
       (error) => {
-        console.error('Error editing patient:', error);
+        console.error('error enviando la anamnesis:', error);
       }
     );
   }
@@ -42,12 +43,13 @@ export class PacienteEnConsultaComponent {
     private router: Router
   ) {}
 
+  // informacion a cargar cuando se caraga la pagina
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const pacienteIdParam = params.get('paciente_id');
       if (pacienteIdParam !== null) {
         this.pacienteId = +pacienteIdParam;
-        this.fetchPacienteData();
+        this.obtenerInformacionDelPaciente();
       } else {
         // Handle the case where paciente_id is null
         console.error('Paciente ID is null');
@@ -56,14 +58,12 @@ export class PacienteEnConsultaComponent {
     });
   }
 
+  // funcion que se mostrara si algun examen ya esta completo
   loadData() {
-    // Example usage of the service method
-    // Replace with the actual patient ID
-
     this.authService.verPacienteConResultados(this.pacienteId).subscribe(
       (response) => {
         this.examenCompletado = response;
-        console.log(this.examenCompletado);
+
         // Handle the response data as needed
       },
       (error) => {
@@ -72,10 +72,10 @@ export class PacienteEnConsultaComponent {
     );
   }
 
-  fetchPacienteData(): void {
+  // funcion que hace la get request
+  obtenerInformacionDelPaciente(): void {
     this.authService.verPacienteEnConsulta(this.pacienteId).subscribe(
       (data) => {
-        console.log(data);
         this.pacienteData = data;
         // Handle the response data as needed
       },
@@ -88,5 +88,9 @@ export class PacienteEnConsultaComponent {
 
   mandarALaboratorio() {
     this.router.navigate(['/Examenes']);
+  }
+
+  mandarAdiagnosticoYreceta() {
+    this.router.navigate(['especialista/receta/', this.pacienteId]);
   }
 }

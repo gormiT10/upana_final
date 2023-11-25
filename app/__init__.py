@@ -1,15 +1,14 @@
 from flask import Flask
-from flask_admin.contrib.sqla import ModelView
-from .models import Usuario, Paciente
-from .admin import UsuarioAdminView,PacienteAdminView
+
+
+from .admin import admins
 from flask_cors import CORS
 
-from .extensions import api,db,admin,bcrypt,mail,jwt
+from .extensions import api,db,bcrypt,mail,jwt
 from .user_resources import autenticacion
 from .main import main
 from .pacientes import paciente
 from .especialistas import soyespecialista
-from .admin import admins
 from .laboratiorio import laboratorio
 from .farmacia import farmacia
 
@@ -29,14 +28,13 @@ def create_app():
 
   api.init_app(app)
   db.init_app(app)
-  admin.init_app(app)
+
   bcrypt.init_app(app)
   mail.init_app(app)
   jwt.init_app(app)
   cors.init_app(app)
 
-  admin.add_view(UsuarioAdminView(Usuario,db.session))
-  admin.add_view(PacienteAdminView(Paciente, db.session))      
+      
   api.add_namespace(autenticacion)
   api.add_namespace(main)
   api.add_namespace(paciente)

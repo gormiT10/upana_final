@@ -22,6 +22,6 @@ export class LogoutComponent {
     // Optionally, clear other stored information or perform additional logout tasks
 
     // Navigate to the login page or any other page you want after logout
-    this.router.navigate(['/Login']);
+    this.router.navigate(['']);
   }
 }

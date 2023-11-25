@@ -1,126 +1,169 @@
-from flask_admin.contrib.sqla import ModelView
+
 import secrets
 import string
 from .extensions import bcrypt
-from flask_restx import Resource,Namespace
+from flask_restx import Resource,Namespace, abort
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from .api_models import modelo_especialista, input_modelo_especialista, modelo_especialista_put,modelo_especialista_put_input
 from .extensions import db, bcrypt
 from .models import  Usuario
-from flask import jsonify
 
 
 
 
-# buscar como agregar mas caracteres pero sin que agregfa
-# esta es la funcion que nos permite agregar una contrasena a cada usuario que es creado desde la pagina de administradores
-def generar_contrasena(length=8):
-    chars = string.ascii_letters + string.digits
-    contrasena = ''.join(secrets.choice(chars) for i in range(length))
-    return contrasena
-
-
-# Esta es la clase que define al usario que es guardado desde el admin page
-class UsuarioAdminView(ModelView):
-    columnas = ["nombre", "correo", 'horario_laboral']
-    contrasena = ''
-
-
-    def on_model_change(self, form, model, is_created):
-
-        if is_created:
-            usuario = form.nombre.data
-            email_domain = "gmail.com"  
-            correo = f"{usuario}@{email_domain}"
-            model.correo = correo
-
-            contrasena = generar_contrasena()
-            print(contrasena)
-            hashed_contrasena = bcrypt.generate_password_hash(contrasena).decode('utf-8')
-            model.contrasena = hashed_contrasena
-
-
-# es la clase que instancia nuestro paciente en el panel de administracion
-class PacienteAdminView(ModelView):
-    columnas = ['nombre', 'especialistas', 'atendido']
-
-
-
+# la autorizacion enviada en los headeres de la http request (jswonwebToken)
 autorizacion = {
-  "jsonWebToken":{
+  "jsonWebtoken":{
     "type":"apiKey",
     "in":"header",
     "name":"Authorizacion"
   }
 }
 
+
+# el blueprint
 admins = Namespace('api', authorizations=autorizacion)
 
 
 
-@admins.route('/especialistas/activos')
-class PanelEspecialistas(Resource):
+# ruta para obtener el usario que esta logeado:
+@admins.route('/usuario/logeado')
+class UsuarioLogeado(Resource):
+  method_decorators = [ jwt_required()]
+  
+  @admins.doc(security='jsonWebtoken')
   @admins.marshal_with(modelo_especialista)
   def get(self):
-    especialistas = Usuario.query.filter(Usuario.puesto == "especialista").all()
-    return especialistas
+    try:
+      algun_usuario = Usuario.query.filter_by(id=get_jwt_identity()).first()
+      return algun_usuario
+    except Exception as e:
+      abort(500, message=f'error {e}')
+
+# ruta que nos devolvera los usuarios registrados para manejar el sistema, tambien nos servira para registrar un nuevo usuario
+@admins.route('/especialistas/activos')
+class PanelAdminstradores(Resource):
+  # protegiendo las rutas 
+  method_decorators = [ jwt_required()]
+
+  @admins.marshal_with(modelo_especialista)
+  @admins.doc(security='jsonWebtoken')
+  def get(self):
+    try:
+      
+      algun_usuario = Usuario.query.filter_by(id=get_jwt_identity()).first()
+      if algun_usuario.es_admin:
+        usuarios = Usuario.query.all()
+        return usuarios
+      else:
+        abort(400, message='NO es admin')
+    except Exception as e:
+      abort(500, message=f'error {e}')
   
-  def generar_contrasena(self):
-    alphabet = string.ascii_letters + string.digits + string.punctuation
-    password = ''.join(secrets.choice(alphabet) for _ in range(12))
-    return password
+  # def generar_contrasena(self):
+  #   alphabet = string.ascii_letters + string.digits + string.punctuation
+  #   password = ''.join(secrets.choice(alphabet) for _ in range(12))
+  #   return password
   # enviar la informacion del especialista cuando desiemos agregar uno nuevo
   #esto solo lo podran hacer los administradores
+
+  # metodo para agregar un nuevo usuario
   @admins.marshal_with(modelo_especialista)
   @admins.expect(input_modelo_especialista)
+  @admins.doc(security='jsonWebtoken')
   def post(self):
-    # remember that you had a problem with json since the unhashed  password included a \slach wich is not allowed in json
-    unhashed_contrasena = self.generar_contrasena()
-    hashed_contrasena = bcrypt.generate_password_hash(unhashed_contrasena)
-    nuevo_especialista = Usuario(nombre=admins.payload["nombre"], 
-                                 especialidad = admins.payload["especialidad"],
-                                 puesto = admins.payload["puesto"],
-                                 correo = admins.payload['correo'],
-                                 horario_laboral = admins.payload['horario_laboral'],
-                                 contrasena = hashed_contrasena,
-                                 es_admin  = admins.payload['es_admin']
-                                 )
-    db.session.add(nuevo_especialista)
-    db.session.commit()
-    return nuevo_especialista
+    try:
+
+      if ('nombre' not in admins.payload  or 
+       not admins.payload['especialidad'] or not admins.payload['puesto'] 
+       or  not admins.payload['horario_laboral'] or  not admins.payload['contrasena']):
+          abort(400, message="error: missing 'nombre' in the payload")
+
+      
+      email_id = admins.payload['nombre'].replace(' ', '_')
+
+      existing_especialista = Usuario.query.filter_by(nombre=admins.payload["nombre"]).first()
+
+      if existing_especialista:
+    # If the nombre already exists, return an error response
+        abort(400, message="error: 'nombre' este usuario ya existe")
+
+      hashed_contrasena = bcrypt.generate_password_hash(admins.payload['contrasena'])
+      nuevo_especialista = Usuario(nombre=admins.payload["nombre"], 
+                                  especialidad = admins.payload["especialidad"],
+                                  puesto = admins.payload["puesto"],
+                                  correo = email_id + '@upanaHospital.com',
+                                  horario_laboral = admins.payload['horario_laboral'],
+                                  contrasena = hashed_contrasena,
+                                  es_admin  = admins.payload['es_admin']
+                                  )
+      db.session.add(nuevo_especialista)
+      db.session.commit()
+      return nuevo_especialista
+    except Exception as e:
+      db.session.rollback()
+      abort(500, message=f'error {e}')
   
 
+
+# ruta que nos permitira ver,editar y eliminar un usuario
 @admins.route('/editar/usuario/<int:usuario_id>')
 class EditandoUsuarios(Resource):
+  method_decorators = [jwt_required()]
 
+#  metodo para jalar la informacion de un usuario especifico
   @admins.marshal_with(modelo_especialista_put)
+  @admins.doc(security='jsonWebtoken')
   def get(self, usuario_id):
-     algun_usuario = Usuario.query.filter_by(id=usuario_id).first()
-     return algun_usuario
+     try:
+      algun_usuario = Usuario.query.filter_by(id=usuario_id).first()
+      return algun_usuario
+     except Exception as e:
+       abort(500, message=f'error {e}')
   
 
+# metodo para actualizar informacion
   @admins.marshal_with(modelo_especialista_put)
   @admins.expect(modelo_especialista_put_input)
+  @admins.doc(security = 'jsonWebtoken')
   def put(self,usuario_id):
-    algun_usuario  = Usuario.query.filter_by(id=usuario_id).first()
+    try:
 
-    hashed_contrasena = bcrypt.generate_password_hash(admins.payload['contrasena']).decode('utf-8')
+      # verificando que venga la informacion completa
+      if ('nombre' not in admins.payload  or 
+       not admins.payload['especialidad'] or not admins.payload['puesto'] or  not admins.payload['correo']
+       or  not admins.payload['horario_laboral'] or  not admins.payload['contrasena']):
+          abort(400, message="error: missing 'nombre' in the payload")
 
-    algun_usuario.es_admin = admins.payload['es_admin']
-    algun_usuario.nombre = admins.payload['nombre']
-    algun_usuario.correo = admins.payload['correo']
-    algun_usuario.especialidad = admins.payload['especialidad']
-    algun_usuario.horario_laboral = admins.payload['horario_laboral']
-    algun_usuario.puesto = admins.payload['puesto']
-    if admins.payload['contrasena']:
-      algun_usuario.contrasena = hashed_contrasena
 
-    db.session.commit()
-    return algun_usuario
+      # editando la informacion del usuario
+      algun_usuario  = Usuario.query.filter_by(id=usuario_id).first()
+      hashed_contrasena = bcrypt.generate_password_hash(admins.payload['contrasena']).decode('utf-8')
+      algun_usuario.es_admin = admins.payload['es_admin']
+      algun_usuario.nombre = admins.payload['nombre']
+      algun_usuario.correo = admins.payload['correo']
+      algun_usuario.especialidad = admins.payload['especialidad']
+      algun_usuario.horario_laboral = admins.payload['horario_laboral']
+      algun_usuario.puesto = admins.payload['puesto']
+      if admins.payload['contrasena']:
+        algun_usuario.contrasena = hashed_contrasena
 
+      db.session.commit()
+      return algun_usuario
+    except Exception as e:
+      db.session.rollback()
+      abort(500, message=f'error {e}')
+
+
+  # metodo para eliminar usuario
   @admins.marshal_with(modelo_especialista_put)
+  @admins.doc(security='jsonWebtoken')
   def delete(self,usuario_id):
-     algun_usuario = Usuario.query.filter_by(id=usuario_id).first()
-     db.session.delete(algun_usuario)
-     db.session.commit()
-     return algun_usuario
+     try:
+      algun_usuario = Usuario.query.filter_by(id=usuario_id).first()
+      db.session.delete(algun_usuario)
+      db.session.commit()
+      return algun_usuario
+     except Exception as e:
+       db.session.rollback()
+       abort(500, message=f'error {e}')

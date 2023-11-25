@@ -1,11 +1,42 @@
-nombre,cantidad,precio
-Medicamento A,50,10.99
-Medicamento B,30,20.5
-Medicamento C,25,15.75
-Medicamento D,40,8.99
-Medicamento E,20,12.5
-Medicamento F,15,18.0
-Medicamento G,35,22.75
-Medicamento H,45,9.5
-Medicamento I,10,25.0
-Medicamento J,5,30.5
+Nombre,Cantidad,Precio
+Aspirina,100,5.99
+Ibuprofeno,50,7.49
+Paracetamol,80,4.99
+Amoxicilina,30,12.99
+Omeprazol,40,9.99
+Atorvastatina,60,15.99
+Loratadina,25,6.49
+Metformina,50,8.99
+Ciprofloxacino,20,11.99
+Losartán,30,10.49
+Simvastatina,40,14.99
+Dipirona,50,5.49
+Ranitidina,40,7.99
+Dexametasona,10,20.99
+Furosemida,30,9.49
+Tramadol,25,8.49
+Cetirizina,40,6.99
+Clonazepam,20,11.99
+Salbutamol,50,7.99
+Hidroclorotiazida,30,12.49
+Fluoxetina,40,10.99
+Miconazol,15,15.49
+Aciclovir,20,18.99
+Sildenafil,10,25.99
+Enalapril,30,11.49
+Cefalexina,25,13.99
+Bisoprolol,20,14.49
+Naproxeno,40,8.99
+Diclofenaco,30,9.49
+Levotiroxina,60,7.99
+Montelukast,20,17.49
+Metronidazol,15,14.99
+Pantoprazol,25,12.99
+Sertralina,30,16.99
+Warfarina,20,19.49
+Digoxina,10,22.99
+Glibenclamida,40,11.99
+Lansoprazol,30,13.49
+Hidrocodona,15,24.99
+Ciclosporina,10,29.99
+

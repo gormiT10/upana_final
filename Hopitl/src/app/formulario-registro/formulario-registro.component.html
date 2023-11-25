@@ -32,6 +32,52 @@
       </select>
     </div>
 
+    <!-- Nuevos campos agregados -->
+    <div class="mb-3">
+      <label for="telefono" class="form-label">Teléfono:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="telefono"
+        [(ngModel)]="nuevoPaciente.telefono"
+        name="telefono"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="genero" class="form-label">Género:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="genero"
+        [(ngModel)]="nuevoPaciente.genero"
+        name="genero"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="dpi" class="form-label">DPI:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="dpi"
+        [(ngModel)]="nuevoPaciente.dpi"
+        name="dpi"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="direccion" class="form-label">Dirección:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="direccion"
+        [(ngModel)]="nuevoPaciente.direccion"
+        name="direccion"
+      />
+    </div>
+    <!-- Fin de los nuevos campos -->
+
     <button type="submit" class="btn btn-primary">Registrar Paciente</button>
   </form>
 </div>

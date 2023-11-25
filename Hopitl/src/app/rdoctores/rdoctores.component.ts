@@ -14,18 +14,17 @@ export class RdoctoresComponent {
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.obtenerPacientesEnSala();
+    this.obtenerPacientesAsignados();
   }
 
-  obtenerPacientesEnSala() {
-    this.authService.obtenerPacientesEnSala().subscribe(
+  obtenerPacientesAsignados() {
+    this.authService.obtenerPacientesAsignados().subscribe(
       (data) => {
         this.pacientesData = data;
         console.log('Datos:', data);
       },
       (error) => {
-        this.error = error;
-        console.error('Error:', error);
+        this.router.navigate(['/Rclientes']);
       }
     );
   }

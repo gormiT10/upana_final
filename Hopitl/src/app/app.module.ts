@@ -33,7 +33,7 @@ import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
   {
-    path: 'Login',
+    path: '',
     component: LoginComponent,
   },
 
@@ -45,6 +45,11 @@ const routes: Routes = [
   {
     path: 'editar/paciente/:paciente_id',
     component: EditarPacienteComponent,
+  },
+
+  {
+    path: 'buscar/paciente/:paciente_id',
+    component: DetallesDelPacienteComponent,
   },
 
   {
@@ -160,6 +165,7 @@ const routes: Routes = [
     EliminarAdministradorComponent,
     AgregarUsuarioComponent,
     LogoutComponent,
+    DetallesDelPacienteComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,11 +22,15 @@ export class EditarPacienteComponent implements OnInit {
   nuevoPaciente = {
     nombre: '',
     especialistas: '',
+    telefono: '',
+    genero: '',
+    direccion: '',
+    dpi: '',
   };
 
   ngOnInit() {
     // Llamada a tu servicio para realizar la solicitud GET en el inicio del componente
-    this.authService.getEspecialistasData().subscribe(
+    this.authService.getEspecialistas().subscribe(
       (response) => {
         console.log('Datos obtenidos con éxito:', response);
         this.especialistasData = response;
@@ -55,6 +59,10 @@ export class EditarPacienteComponent implements OnInit {
         console.log(data);
         this.pacienteData = data;
         this.nuevoPaciente.nombre = this.pacienteData.nombre;
+        this.nuevoPaciente.telefono = this.pacienteData.telefono;
+        this.nuevoPaciente.genero = this.pacienteData.genero;
+        this.nuevoPaciente.dpi = this.pacienteData.dpi;
+        this.nuevoPaciente.direccion = this.pacienteData.direccion;
 
         // try with 2 especialistas
         this.nuevoPaciente.especialistas =
@@ -70,16 +78,12 @@ export class EditarPacienteComponent implements OnInit {
   }
 
   editarPaciente(): void {
-    const editarPaciente = {
-      nombre: this.nuevoPaciente.nombre,
-      especialistas: this.nuevoPaciente.especialistas,
-    };
     const pacienteId = this.pacienteId; // Replace with the actual patient ID
 
-    this.authService.editarElPaciente(editarPaciente, pacienteId).subscribe(
+    this.authService.editarElPaciente(this.nuevoPaciente, pacienteId).subscribe(
       (response) => {
         console.log('Patient edited successfully:', response);
-        this.router.navigate(['/Rclientes']);
+        this.router.navigate(['Rclientes']);
       },
       (error) => {
         console.error('Error editing patient:', error);
@@ -92,6 +96,6 @@ export class EditarPacienteComponent implements OnInit {
     const pacienteId = this.pacienteData.id;
 
     // Navigate to the '/editar/paciente/:paciente_id' route with the paciente_id parameter
-    this.router.navigate(['/buscar/paciente/', pacienteId]);
+    this.router.navigate(['Rclientes']);
   }
 }

@@ -36,7 +36,6 @@ export class PacienteEnLaboratorioComponent {
   fetchPacienteData(): void {
     this.authService.verPacienteEnLaboratorio(this.pacienteId).subscribe(
       (data) => {
-        console.log(data);
         this.pacienteData = data;
 
         // Handle the response data as needed
@@ -49,9 +48,6 @@ export class PacienteEnLaboratorioComponent {
   }
 
   test(examen_id: any, examen_nombre: any) {
-    // Assuming pacienteData contains the necessary properties, including 'id'
-
-    // Navigate to the '/editar/paciente/:paciente_id' route with the paciente_id parameter
     this.router.navigate(['examen/completado', examen_id, examen_nombre]);
   }
 }

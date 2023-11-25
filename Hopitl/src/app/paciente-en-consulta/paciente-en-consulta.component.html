@@ -1,12 +1,9 @@
 <div class="container mt-4">
-  <h2>Patient Information:</h2>
+  <h2>Informacion Del Paciente:</h2>
   <ul class="list-group">
     <li class="list-group-item"><strong>ID:</strong> {{ pacienteData.id }}</li>
     <li class="list-group-item">
       <strong>Nombre:</strong> {{ pacienteData.nombre }}
-    </li>
-    <li class="list-group-item">
-      <strong>Proceso:</strong> {{ pacienteData.proceso }}
     </li>
     <!-- Add more properties as needed -->
   </ul>
@@ -14,7 +11,7 @@
 
 <!-- Conditionally render the Medical Consultation Form or examenCompletado based on pacienteData.proceso -->
 <div *ngIf="pacienteData.proceso === 'en-sala'" class="container mt-4">
-  <h2>Medical Consultation Form</h2>
+  <h2>Anamnesis</h2>
 
   <form (ngSubmit)="enviarAnamnesis()">
     <div class="form-group">
@@ -75,7 +72,9 @@
     <button class="btn btn-secondary" (click)="mandarALaboratorio()">
       Mandar a Laboratorio
     </button>
-    <button class="btn btn-success">Proceder a Crear Receta</button>
+    <button class="btn btn-success" (click)="mandarAdiagnosticoYreceta()">
+      Proceder a Crear Receta
+    </button>
   </div>
 </div>
 <div *ngIf="pacienteData.proceso === 'en-consulta'" class="container mt-4">

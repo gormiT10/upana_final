@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-detalles-del-paciente',
@@ -16,6 +15,8 @@ export class DetallesDelPacienteComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {}
+
+  antiguoPaciente = false;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -35,6 +36,9 @@ export class DetallesDelPacienteComponent implements OnInit {
       (data) => {
         console.log(data);
         this.pacienteData = data;
+        if (this.pacienteData.anamnesis.length > 0) {
+          this.antiguoPaciente = true;
+        }
         // Handle the response data as needed
       },
       (error) => {
@@ -58,6 +62,34 @@ export class DetallesDelPacienteComponent implements OnInit {
 
     // Navigate to the '/editar/paciente/:paciente_id' route with the paciente_id parameter
     this.router.navigate(['/eliminar/paciente', pacienteId]);
+  }
+
+  comenzarNuevaConsulta() {
+    this.authService.nuevaConsulta(this.pacienteId).subscribe(
+      (data) => {
+        console.log(data);
+        this.router.navigate(['/editar/paciente/', this.pacienteId]);
+        // Handle the response data as needed
+      },
+      (error) => {
+        console.error('Error fetching paciente data:', error);
+        // Handle errors as needed
+      }
+    );
+  }
+
+  cancelarNuevaConsulta() {
+    this.authService.cancelarNuevaConsulta(this.pacienteId).subscribe(
+      (data) => {
+        console.log(data);
+        this.router.navigate(['Rclientes']);
+        // Handle the response data as needed
+      },
+      (error) => {
+        console.error('Error fetching paciente data:', error);
+        // Handle errors as needed
+      }
+    );
   }
 
   regresar() {

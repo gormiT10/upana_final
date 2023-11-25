@@ -16,9 +16,9 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
 
+  // request para obtener la lista de pacientes no atendidos
   listarPacientes(): Observable<any> {
     const accessToken = localStorage.getItem('access_token');
-    console.log(accessToken);
 
     if (!accessToken) {
       // Handle the case when the token is not available
@@ -33,40 +33,147 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/pacientes`, { headers });
   }
 
-  getEspecialistasData(): Observable<any> {
+  // servicio para obtener el usuario logeado
+  usarioLogeado(): Observable<any> {
+    const accessToken = localStorage.getItem('access_token');
+
+    if (!accessToken) {
+      // Handle the case when the token is not available
+      this.router.navigate(['/Login']);
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
     // Replace 'your-endpoint' with the actual endpoint you want to request data from
-    return this.http.get(`${this.apiUrl}/especialistas/activos`);
+    return this.http.get(`${this.apiUrl}/usuario/logeado`, { headers });
   }
 
+  getUsuariosAdmin(): Observable<any> {
+    const accessToken = localStorage.getItem('access_token');
+
+    if (!accessToken) {
+      // Handle the case when the token is not available
+      this.router.navigate(['/Login']);
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.get(`${this.apiUrl}/especialistas/activos`, { headers });
+  }
+
+  getEspecialistas(): Observable<any> {
+    const accessToken = localStorage.getItem('access_token');
+    console.log(accessToken);
+    if (!accessToken) {
+      // Handle the case when the token is not available
+      this.router.navigate(['/Login']);
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.get(`${this.apiUrl}/nuestros/especialistas`, { headers });
+  }
+
+  // FALTA
   obtenerPacientes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/pacientes`);
   }
 
-  obtenerPacientesEnSala(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/soyespecialista`);
+  // request para obtener los pacientes asignados a un especialista especifico
+  obtenerPacientesAsignados(): Observable<any[]> {
+    const accessToken = localStorage.getItem('access_token');
+
+    if (!accessToken) {
+      // Handle the case when the token is not available
+      this.router.navigate(['/Login']);
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.get<any[]>(`${this.apiUrl}/soyespecialista`, { headers });
   }
 
   obtenerPacientesConExamenes(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/laboratorio`);
+    const accessToken = localStorage.getItem('access_token');
+
+    if (!accessToken) {
+      // Handle the case when the token is not available
+      this.router.navigate(['/Login']);
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.get<any[]>(`${this.apiUrl}/laboratorio`, { headers });
   }
 
+  // request para registrar un paciente
   registrarpacientes(nuevopaciente: {
     nombre: string;
     especialistas: string;
+    telefono: string;
+    genero: string;
+    dpi: string;
+    direccion: string;
   }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/pacientes`, nuevopaciente);
+    const accessToken = localStorage.getItem('access_token');
+
+    if (!accessToken) {
+      // Handle the case where the access token is not available
+      console.error('no se encontro el access token');
+      this.router.navigate(['/Login']);
+      // You might want to redirect to the login page or handle the error in another way
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.post(`${this.apiUrl}/pacientes`, nuevopaciente, {
+      headers,
+    });
   }
 
   registrarUsurio(nuevoUsuario: {
     es_admin: boolean;
     nombre: string;
-    correo: string;
     contrasena: string;
     especialidad: string;
     horario_laboral: string;
     puesto: string;
   }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/especialistas/activos`, nuevoUsuario);
+    const accessToken = localStorage.getItem('access_token');
+
+    if (!accessToken) {
+      // Handle the case where the access token is not available
+      console.error('no se encontro el access token');
+      this.router.navigate(['/Login']);
+      // You might want to redirect to the login page or handle the error in another way
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+    return this.http.post(
+      `${this.apiUrl}/especialistas/activos`,
+      nuevoUsuario,
+      { headers }
+    );
   }
 
   pacienteAnamnesis(
@@ -78,10 +185,39 @@ export class AuthService {
     },
     paciente_id: number
   ): Observable<any> {
+    // mandando el json web token en le header
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     return this.http.post(
       `${this.apiUrl}/especialista/paciente/${paciente_id}`,
-      info_consulta
+      info_consulta,
+      { headers }
     );
+  }
+
+  BuscarUnPaciente(nombre: { nombre: string }): Observable<any> {
+    // mandando el json web token en le header
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.post(`${this.apiUrl}/buscar/paciente`, nombre, {
+      headers,
+    });
   }
 
   pacienteExamenesyResultados(
@@ -96,20 +232,56 @@ export class AuthService {
     nombre: string,
     examen_id: number
   ): Observable<any> {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     return this.http.post(
       `${this.apiUrl}/examen/completado/${nombre}/${examen_id}`,
-      info_examen
+      info_examen,
+      { headers }
     );
   }
 
   irApaciente(pacienteId: number): Observable<any> {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     const url = `${this.apiUrl}/buscar/paciente/${pacienteId}`;
-    return this.http.get(url);
+    return this.http.get(url, { headers });
   }
 
+  // metodo que nos permitira obtener la informacion basica de un paciente
   verPacienteEnConsulta(pacienteId: number): Observable<any> {
+    // jsonWebToken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    // url a mandar la request
     const url = `${this.apiUrl}/especialista/paciente/${pacienteId}`;
-    return this.http.get(url);
+
+    // mandamos el header en la peticion
+    return this.http.get(url, { headers });
   }
 
   enviarDiagnosticoReceta(
@@ -121,9 +293,21 @@ export class AuthService {
     },
     paciente_id: number
   ): Observable<any> {
+    // jsonWebToken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     return this.http.post(
       `${this.apiUrl}/especialistas/receta/${paciente_id}`,
-      informacion
+      informacion,
+      { headers }
     );
   }
 
@@ -142,36 +326,138 @@ export class AuthService {
   }
 
   mostrarFactura(pacienteId: number): Observable<any> {
+    // jsonWebToken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     const url = `${this.apiUrl}/farmacia/factura/${pacienteId}`;
-    return this.http.get(url);
+    return this.http.get(url, { headers });
+  }
+
+  nuevaConsulta(pacienteId: number): Observable<any> {
+    // jsonWebToken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    const url = `${this.apiUrl}/nueva/consulta/${pacienteId}`;
+    return this.http.get(url, { headers });
+  }
+
+  cancelarNuevaConsulta(pacienteId: number): Observable<any> {
+    // jsonWebToken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    const url = `${this.apiUrl}/cancelar/nueva/consulta/${pacienteId}`;
+    return this.http.get(url, { headers });
   }
 
   verPacienteConResultados(pacienteId: number): Observable<any> {
+    // jsonWebToken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
     const url = `${this.apiUrl}/especialistas/receta/${pacienteId}`;
-    return this.http.get(url);
+    return this.http.get(url, { headers });
   }
 
   verExamenesAcompletar(examen_id: number, nombre: string): Observable<any> {
+    // jsonWebToken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     const url = `${this.apiUrl}/examen/completado/${nombre}/${examen_id}`;
-    return this.http.get(url);
+    return this.http.get(url, { headers });
   }
 
   verPacienteEnLaboratorio(pacienteId: number): Observable<any> {
+    // jsonWebToken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     const url = `${this.apiUrl}/laboratorio/examenes/${pacienteId}`;
-    return this.http.get(url);
+    return this.http.get(url, { headers });
   }
 
   informacionDelUsuario(usuario_id: number): Observable<any> {
+    // jsonWebToken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
     const url = `${this.apiUrl}/editar/usuario/${usuario_id}`;
-    return this.http.get(url);
+    return this.http.get(url, { headers });
   }
 
   editarElPaciente(
-    editarPaciente: { nombre: string; especialistas: string },
+    editarPaciente: {
+      nombre: string;
+      especialistas: string;
+      telefono: string;
+      genero: string;
+      dpi: string;
+      direccion: string;
+    },
     pacienteId: number
   ): Observable<any> {
+    // jsonWebToken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
     const url = `${this.apiUrl}/buscar/paciente/${pacienteId}`;
-    return this.http.put(url, editarPaciente);
+    return this.http.put(url, editarPaciente, { headers });
   }
 
   editarElUsuario(
@@ -186,20 +472,67 @@ export class AuthService {
     },
     usuario_id: number
   ): Observable<any> {
+    // jsonWebToken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     const url = `${this.apiUrl}/editar/usuario/${usuario_id}`;
-    return this.http.put(url, editarPaciente);
+    return this.http.put(url, editarPaciente, { headers });
   }
 
   obtenerMedicamentos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/farmacia/productos`);
+    // mandando el jsonwebtoken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+    return this.http.get<any[]>(`${this.apiUrl}/farmacia/productos`, {
+      headers,
+    });
   }
 
   pacientesEnFarmacia(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/farmacia`);
+    // mandando el jsonwebtoken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.get<any[]>(`${this.apiUrl}/farmacia`, { headers });
   }
 
   listaAdministradores(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/especialistas/activos`);
+    // mandando el jsonwebtoken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.get<any[]>(`${this.apiUrl}/especialistas/activos`, {
+      headers,
+    });
   }
 
   pacientesPagandoEnFarmacia(paciente_id: number): Observable<any[]> {
@@ -209,12 +542,34 @@ export class AuthService {
   }
 
   deletePaciente(pacienteId: number): Observable<any> {
+    // mandando el jsonwebtoken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     const url = `${this.apiUrl}/buscar/paciente/${pacienteId}`;
-    return this.http.delete(url);
+    return this.http.delete(url, { headers });
   }
 
   eliminarUsuario(usuario_id: number): Observable<any> {
+    // mandando el jsonwebtoken para validar la session
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No se encontró el access token');
+      this.router.navigate(['/Login']);
+    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     const url = `${this.apiUrl}/editar/usuario/${usuario_id}`;
-    return this.http.delete(url);
+    return this.http.delete(url, { headers });
   }
 }

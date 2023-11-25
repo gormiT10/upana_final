@@ -29,7 +29,7 @@ export class DiagnosticoYrecetaComponent {
   diagnostico!: string;
 
   ngOnInit(): void {
-    this.obtenerPacientes();
+    this.obtenerMedicamentos();
     this.medicamentosListados = [];
     this.cantidadDelMedicamento = [];
     this.dosisDelMedicamento = [];
@@ -62,7 +62,7 @@ export class DiagnosticoYrecetaComponent {
     this.mostrarPopup = !this.mostrarPopup;
   }
 
-  obtenerPacientes() {
+  obtenerMedicamentos() {
     this.authService.obtenerMedicamentos().subscribe(
       (data) => {
         this.medicamentos = data;

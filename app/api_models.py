@@ -16,11 +16,19 @@ modelo_usuario = api.model("Usuario", {
 # schema para los datos enviado desde el formulario de agregar pacientes
 input_modelo_paciente = api.model('InputPaciente', {
   "nombre":fields.String,
-  "especialistas":fields.String
+  "especialistas":fields.String,
+  "telefono":fields.String,
+  "genero":fields.String,
+  "dpi":fields.String,
+  "direccion":fields.String,
 })
 
+
+
+
+
 # schema a returnar cuando enviemos la informacion del paciente  devuelta
-modelo_paciente = api.model("Paciente",{
+modelo_paciente = api.model("Paciente",{ 
   "id":fields.Integer,
   "nombre":fields.String,
   "especialistas":fields.List(fields.String)
@@ -28,15 +36,20 @@ modelo_paciente = api.model("Paciente",{
 
 # schema para los datos enviado desde el formulario de buscar un paciente por id
 input_modelo_buscar_paciente = api.model("InputBuscarPaciente", {
-  "id":fields.Integer,
+  "nombre":fields.String,
 })
 
 # # schema a returnar cuando enviemos la informacion completa del paciente
 full_modelo_paciente = api.model("FullInfoPaciente",{
   "id":fields.Integer,
   "nombre":fields.String,
+  "direccion":fields.String,
+  "telefono":fields.String,
+  "genero":fields.String,
+  "dpi":fields.String,
   "especialistas":fields.List(fields.String),
   "proceso":fields.String,
+  "anamnesis":fields.List(fields.String)
 
 })
 

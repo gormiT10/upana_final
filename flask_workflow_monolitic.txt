@@ -29,6 +29,17 @@ from flask_wtf.file import FileAllowed,FileField
 from wtforms import StringField,PasswordField,SubmitField,BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 
+with open('app/productos.csv', 'r') as file:
+...     reader = csv.reader(file)
+...     header = next(reader)
+...     for row in reader:
+...             nuevo_medicamento = Medicamento(nombre=row[0], precio=row[1],cantidad_disponible=row[2])
+...             db.session.add(nuevo_medicamento)
+...             db.session.commit()
+
+
+
+
 9. __init__.py
 import os
 from flask import Flask 

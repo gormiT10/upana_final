@@ -23,7 +23,6 @@ export class ExamenesComponent {
     this.authService.obtenerPacientesConExamenes().subscribe(
       (data) => {
         this.pacientesData = data;
-        console.log('Datos:', data);
       },
       (error) => {
         this.error = error;

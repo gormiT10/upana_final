@@ -1,10 +1,29 @@
-<div>
+<!-- detalles-del-paciente.component.html -->
+
+<div class="container mt-4">
   <h2>Detalles del Paciente</h2>
   <p>Nombre: {{ pacienteData.nombre }}</p>
   <p>ID: {{ pacienteData.id }}</p>
+
   <!-- Display other details as needed -->
 
-  <button (click)="irAEditar()">Editar</button>
-  <button (click)="irAEliminar()">Eliminar</button>
-  <button (click)="regresar()">Regresar</button>
+  <!-- Conditionally render the first or second set of buttons -->
+  <div *ngIf="antiguoPaciente" class="mt-3">
+    <!-- First set of buttons when anamnesis is not empty -->
+    <div>
+      <button (click)="comenzarNuevaConsulta()" class="btn btn-primary">
+        Comenzar Nueva Consulta
+      </button>
+      <button (click)="cancelarNuevaConsulta()" class="btn btn-danger">
+        Cancelar Nueva Consulta
+      </button>
+    </div>
+  </div>
+
+  <!-- Second set of buttons when anamnesis is empty -->
+  <div *ngIf="!antiguoPaciente" class="mt-3">
+    <button (click)="irAEditar()" class="btn btn-primary">Editar</button>
+    <button (click)="irAEliminar()" class="btn btn-danger">Eliminar</button>
+    <button (click)="regresar()" class="btn btn-secondary">Regresar</button>
+  </div>
 </div>

@@ -55,7 +55,7 @@ export class EliminarPacienteComponent {
       (response) => {
         console.log('Paciente deleted successfully:', response);
         // Handle the response or perform any additional logic
-        this.router.navigate(['/Rclientes']);
+        this.router.navigate(['Rclientes']);
       },
       (error) => {
         console.error('Error deleting paciente:', error);

@@ -14,10 +14,10 @@ export class MedicamentosComponent {
   pacientesData: any[] = [];
   error: any;
   ngOnInit(): void {
-    this.obtenerPacientesEnSala();
+    this.obtenerColaPacientesEnFarmacia();
   }
 
-  obtenerPacientesEnSala() {
+  obtenerColaPacientesEnFarmacia() {
     this.authService.pacientesEnFarmacia().subscribe(
       (data) => {
         this.pacientesData = data;
