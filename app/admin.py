@@ -60,12 +60,7 @@ class PanelAdminstradores(Resource):
     except Exception as e:
       abort(500, message=f'error {e}')
   
-  # def generar_contrasena(self):
-  #   alphabet = string.ascii_letters + string.digits + string.punctuation
-  #   password = ''.join(secrets.choice(alphabet) for _ in range(12))
-  #   return password
-  # enviar la informacion del especialista cuando desiemos agregar uno nuevo
-  #esto solo lo podran hacer los administradores
+
 
   # metodo para agregar un nuevo usuario
   @admins.marshal_with(modelo_especialista)
