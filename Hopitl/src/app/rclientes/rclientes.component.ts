@@ -29,6 +29,7 @@ export class RclientesComponent implements OnInit {
       },
       (error) => {
         console.error('error:', error);
+        this.router.navigate(['']);
         // Handle the error as needed
       }
     );
@@ -46,6 +47,7 @@ export class RclientesComponent implements OnInit {
         this.pacientesData = data;
       },
       (error) => {
+        this.router.navigate(['']);
         this.error = error;
         console.error('Error:', error);
       }

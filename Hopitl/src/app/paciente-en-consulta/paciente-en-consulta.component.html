@@ -5,6 +5,7 @@
     <li class="list-group-item">
       <strong>Nombre:</strong> {{ pacienteData.nombre }}
     </li>
+
     <!-- Add more properties as needed -->
   </ul>
 </div>
@@ -13,7 +14,7 @@
 <div *ngIf="pacienteData.proceso === 'en-sala'" class="container mt-4">
   <h2>Anamnesis</h2>
 
-  <form (ngSubmit)="enviarAnamnesis()">
+  <form (ngSubmit)="enviarAnamnesis()" #anamnesisForm="ngForm">
     <div class="form-group">
       <label for="consulta">Consulta</label>
       <input
@@ -70,6 +71,7 @@
         name="antecedentes"
         placeholder="Enter antecedentes"
         [(ngModel)]="anamnesis.antecedentes"
+        required
       ></textarea>
     </div>
 

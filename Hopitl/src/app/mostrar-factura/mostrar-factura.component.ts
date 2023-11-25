@@ -25,10 +25,22 @@ export class MostrarFacturaComponent {
   ngOnInit(): void {
     // Get the pacienteId from the URL parameters
     this.route.params.subscribe((params) => {
-      this.pacienteId = +params['paciente_id']; // Convert to number
+      this.route.paramMap.subscribe((params) => {
+        const pacienteIdParam = params.get('paciente_id');
+        if (pacienteIdParam !== null) {
+          this.pacienteId = +pacienteIdParam;
+        } else {
+          // Handle the case where paciente_id is null
+          console.error('Paciente ID is null');
+        }
+      });
     });
 
     this.obtenerFactura();
+  }
+
+  verResumen() {
+    this.router.navigate(['/buscar/paciente/', this.pacienteId]);
   }
 
   obtenerFactura() {
@@ -36,7 +48,6 @@ export class MostrarFacturaComponent {
       (data) => {
         this.factura.subtotal = data.subtotal;
         this.factura.total = data.total;
-        console.log(data);
       },
       (error) => {
         this.error = error;

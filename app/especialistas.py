@@ -42,7 +42,7 @@ class PaginaParaEspecialistas(Resource):
      # verificando la identidad del especialista
       algun_especialista = db.session.query(Usuario).filter_by(id=identidad).first()
      
-      if algun_especialista.puesto != 'especialista':
+      if algun_especialista.puesto != 'especialista' and not algun_paciente.es_admin:
         abort(400)
       
       # seleccionando los pacientes que estan en sala de espera y esperan para pasar a consulta de este especialista
@@ -140,9 +140,14 @@ class PaginaConsulta(Resource):
       # el paciente en consulta
       algun_paciente = Paciente.query.filter_by(id=paciente_id).first()
 
+
+      if ('peso' not in soyespecialista.payload or 'altura' not in soyespecialista.payload or 'antecedentes' not in soyespecialista.payload or 'consulta' not in soyespecialista.payload 
+          or 'alergias' not in soyespecialista.payload):
+        abort(500, message='informacion insuficiente')
+
       # guardando la anamnesis en nuestra base de datos
       nueva_consulta = Anamnesis(peso =soyespecialista.payload['peso'], altura = soyespecialista.payload['altura'],antecedentes = soyespecialista.payload['antecedentes'],
-                                consulta= soyespecialista.payload['consulta'], paciente = algun_paciente, alergias  = soyespecialista.payload['alergias'],)
+                                consulta= soyespecialista.payload['consulta'], paciente_id = algun_paciente.id, alergias  = soyespecialista.payload['alergias'],)
       
       # el estado de la cita medica cambia 
       algun_paciente.proceso = 'en-consulta'

@@ -28,14 +28,22 @@ class Laboratorio(Resource):
   def get(self):
     try:
 
-      # usamos un set para no tener nombres repetidos
+      identidad = get_jwt_identity()
+
+      algun_usuario = Usuario.query.filter_by(id=identidad).first()
+
+      if algun_usuario.puesto != 'laboratorista' and not algun_usuario.es_admin:
+        abort(400, message='no es laboratorista ni administrador')
+          
+
+        # usamos un set para no tener nombres repetidos
       paciente_con_examenes = set()
 
-      # exemenes pendientes
+        # exemenes pendientes
       examenes = (db.session.query(ExamenSangre).filter(ExamenSangre.status == 'en-laboratorio').all() +
-                        db.session.query(ExamenOrina).filter(ExamenOrina.status =='en-laboratorio').all())
-      
-      # identificando los pacientes
+                          db.session.query(ExamenOrina).filter(ExamenOrina.status =='en-laboratorio').all())
+        
+        # identificando los pacientes
       for examen in  examenes:
         algun_paciente = Paciente.query.filter_by(id=examen.paciente_id).first()
         paciente_con_examenes.add(algun_paciente)
@@ -43,7 +51,7 @@ class Laboratorio(Resource):
 
       return cola_de_pacientes
     except Exception as e:
-      abort(500, message=f"error: {str(e)}")
+        abort(500, message=f"error: {str(e)}")
 
 
 # esta ruta nos devolvera los examenes que el paciente se realizara
@@ -103,15 +111,15 @@ class InformacionExamenIncompleto(Resource):
         algun_examen_especifico.status = 'completados'
         algun_examen_especifico.color = laboratorio.payload['color']
         algun_examen_especifico.aspecto = laboratorio.payload['aspecto']
-        algun_examen_especifico.color = laboratorio.payload['glucosa']
-        algun_examen_especifico.aspecto = laboratorio.payload['proteinas']
+        algun_examen_especifico.glucosa = laboratorio.payload['glucosa']
+        algun_examen_especifico.proteinas = laboratorio.payload['proteinas']
         db.session.commit()
     elif algun_examen_especifico.nombre == "sangre":
         algun_examen_especifico.status = 'completados'
         algun_examen_especifico.hemoglobina = laboratorio.payload['hemoglobina']
         algun_examen_especifico.hematocrito = laboratorio.payload['hematocrito']
-        algun_examen_especifico.hemoglobina = laboratorio.payload['glucosa']
-        algun_examen_especifico.hematocrito = laboratorio.payload['trigliceridos']
+        algun_examen_especifico.glucosa = laboratorio.payload['glucosa']
+        algun_examen_especifico.trigliceridos = laboratorio.payload['trigliceridos']
         db.session.commit()
    
 

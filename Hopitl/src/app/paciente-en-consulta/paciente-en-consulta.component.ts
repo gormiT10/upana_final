@@ -89,7 +89,7 @@ export class PacienteEnConsultaComponent {
   }
 
   mandarALaboratorio() {
-    this.router.navigate(['/Examenes']);
+    this.router.navigate(['/Rdoctores']);
   }
 
   mandarAdiagnosticoYreceta() {

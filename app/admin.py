@@ -132,21 +132,23 @@ class EditandoUsuarios(Resource):
       # verificando que venga la informacion completa
       if ('nombre' not in admins.payload  or 
        not admins.payload['especialidad'] or not admins.payload['puesto'] or  not admins.payload['correo']
-       or  not admins.payload['horario_laboral'] or  not admins.payload['contrasena']):
+       or  not admins.payload['horario_laboral']):
           abort(400, message="error: missing 'nombre' in the payload")
 
 
       # editando la informacion del usuario
       algun_usuario  = Usuario.query.filter_by(id=usuario_id).first()
-      hashed_contrasena = bcrypt.generate_password_hash(admins.payload['contrasena']).decode('utf-8')
+      if admins.payload['contrasena']:
+        hashed_contrasena = bcrypt.generate_password_hash(admins.payload['contrasena']).decode('utf-8')
+        algun_usuario.contrasena = hashed_contrasena
+     
       algun_usuario.es_admin = admins.payload['es_admin']
       algun_usuario.nombre = admins.payload['nombre']
       algun_usuario.correo = admins.payload['correo']
       algun_usuario.especialidad = admins.payload['especialidad']
       algun_usuario.horario_laboral = admins.payload['horario_laboral']
       algun_usuario.puesto = admins.payload['puesto']
-      if admins.payload['contrasena']:
-        algun_usuario.contrasena = hashed_contrasena
+     
 
       db.session.commit()
       return algun_usuario

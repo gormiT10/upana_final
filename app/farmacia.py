@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from .api_models import  (full_modelo_paciente,input_anamnesis_y_examenes, 
                           modelo_factura, show_factura, receta, modelo_medicamento)
 from .extensions import db, bcrypt
-from .models import   Paciente,Medicacion,Medicamento, Facturas
+from .models import   Paciente,Medicacion,Medicamento, Facturas,Usuario
 import pandas as pd
 
 
@@ -27,6 +27,14 @@ class Farmacia(Resource):
   @farmacia.doc(security ='jsonWebtoken')
   def get(self):
     try:
+      identidad = get_jwt_identity()
+      print(identidad)
+      algun_usuario = Usuario.query.filter_by(id=identidad).first()
+
+      # verificando la identidad
+      if algun_usuario.puesto != 'farmaceutico' and not algun_usuario.es_admin:
+        abort(400, message='no es farmaceutico ni administrador')
+    
       pacientes_pagar_en_farmacia = Paciente.query.filter_by(proceso='pagar-en-farmacia').all()
       cola_de_pacientes_a_pagar = sorted(pacientes_pagar_en_farmacia, key=lambda x:x.fecha_de_creacion)
       return cola_de_pacientes_a_pagar

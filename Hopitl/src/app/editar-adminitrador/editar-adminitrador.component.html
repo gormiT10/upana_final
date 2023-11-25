@@ -82,14 +82,18 @@
     <!-- Text input for 'puesto' -->
     <div class="mb-3">
       <label for="puestoInput" class="form-label">Puesto</label>
-      <input
-        type="text"
+      <select
         class="form-control"
         id="puestoInput"
         name="puesto"
         required
         [(ngModel)]="esteUsuario.puesto"
-      />
+      >
+        <option value="secretario">Secretario</option>
+        <option value="especialista">Especialista</option>
+        <option value="laboratorista">Laboratorista</option>
+        <option value="farmaceutico">Farmacéutico</option>
+      </select>
     </div>
 
     <!-- Submit button -->

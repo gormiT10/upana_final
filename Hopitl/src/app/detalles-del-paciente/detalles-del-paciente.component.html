@@ -10,52 +10,31 @@
   <p>Dpi: {{ pacienteData.genero }}</p>
   <p>Proceso: {{ pacienteData.proceso }}</p>
 
-  <p><strong>Especialistas:</strong></p>
-  <ul>
-    <li *ngFor="let especialista of pacienteData.especialistas">
-      {{ especialista }}
-    </li>
-  </ul>
-  <p><strong>Anamnesis:</strong></p>
-  <ul>
-    <li *ngFor="let anamnesis of pacienteData.anamnesis">
-      {{ anamnesis }}
-    </li>
-  </ul>
-  <p><strong>Examenes De Sangre:</strong></p>
-  <ul>
-    <li *ngFor="let examen of pacienteData.examen_sangre">
-      {{ examen }}
-    </li>
-  </ul>
-
-  <p><strong>Examenes De Orina:</strong></p>
-  <ul>
-    <li *ngFor="let examen of pacienteData.examen_orina">
-      {{ examen }}
-    </li>
-  </ul>
-
-  <p><strong>Diagnosticos:</strong></p>
-  <ul>
-    <li *ngFor="let diagnostico of pacienteData.diagnostico">
-      {{ diagnostico }}
-    </li>
-  </ul>
-
-  <p><strong>Medicaciones:</strong></p>
-  <ul>
-    <li *ngFor="let medicacion of pacienteData.medicacion">
-      {{ medicacion }}
-    </li>
-  </ul>
-
-  <p><strong>Facturas:</strong></p>
-  <ul>
-    <li *ngFor="let factura of pacienteData.factura">
-      {{ factura }}
-    </li>
-  </ul>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Especialistas</th>
+        <th>Anamnesis</th>
+        <th>Examenes De Sangre</th>
+        <th>Examenes De Orina</th>
+        <th>Diagnosticos</th>
+        <th>Medicaciones</th>
+        <th>Facturas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Puedes ajustar el número de filas según la longitud máxima de las listas -->
+      <tr *ngFor="let index of pacienteData.especialistas; let i = index">
+        <td>{{ pacienteData.especialistas[i] }}</td>
+        <td>{{ pacienteData.anamnesis[i] }}</td>
+        <td>{{ pacienteData.examen_sangre[i] }}</td>
+        <td>{{ pacienteData.examen_orina[i] }}</td>
+        <td>{{ pacienteData.diagnostico[i] }}</td>
+        <td>{{ pacienteData.medicacion[i] }}</td>
+        <td>{{ pacienteData.factura[i] }}</td>
+      </tr>
+    </tbody>
+  </table>
 
   <!-- Display other details as needed -->
 
@@ -70,6 +49,15 @@
         Cancelar Nueva Consulta
       </button>
     </div>
+  </div>
+
+  <div class="mt-3">
+    <button (click)="irAEditar()" class="btn btn-primary">
+      Imprimir Informacion
+    </button>
+    <button (click)="irAEliminar()" class="btn btn-danger">
+      Enviar Informacion
+    </button>
   </div>
 
   <!-- Second set of buttons when anamnesis is empty -->
